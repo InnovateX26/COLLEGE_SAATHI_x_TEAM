@@ -1,0 +1,12 @@
+{
+  "meta": {
+      "version": "v1.0",
+      "tagline": "Connecting college communities and creating meaningful educational experience that empower students to achieve their goals.",
+      "changelogs": [
+        "[+] =======Hackathon=====",
+        "[+] The project is under development"
+      ]
+  },
+  "colleges": [
+  ]
+}
