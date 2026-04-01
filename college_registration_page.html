@@ -1,1 +1,461 @@
-
+<!--
+    @EVENT: INNOVATE-X
+    @PROJECT: COLLEGE SAATHI
+    @AUTHOR: COLLEGE SAAHTI X TEAM
+    @DATE: 01-04-2026
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>College Saathi</title>
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet">
+	<style>
+		:root { --gold: #F5C200; --black: #1a1a1a; --white: #FFFFFF; --text-body: #222222; --border: #E5E5E5; --grey: #F4F4F4; --red-accent: #CC2244; }
+		*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+		html, body { width: 100%; min-height: 100%; font-family: 'Source Serif 4', Georgia, serif; background: #e8e8e8; color: var(--text-body); overflow-x: hidden; }
+		.page-wrapper { width: 100vw; min-height: 100vh; display: flex; flex-direction: column; background: var(--white); box-shadow: 0 0 60px rgba(0,0,0,0.22); }
+		.header-band { width: 100%; background: var(--gold); display: flex; flex-direction: column; align-items: center; padding: 11px 20px 9px; flex-shrink: 0; }
+		.cs-title { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3.8vw, 40px); font-weight: 900; color: var(--black); letter-spacing: 0.02em; line-height: 1; margin-bottom: 2px; }
+		.cs-subtitle { font-family: 'Source Serif 4', serif; font-size: clamp(7px, 0.8vw, 10px); font-weight: 600; color: var(--black); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1px; }
+		.cs-version { font-family: 'Source Serif 4', serif; font-size: clamp(7px, 0.7vw, 9px); color: var(--black); text-decoration: underline; opacity: 0.65; }
+		.reg-body { flex: 1; padding: clamp(14px,2vw,28px) clamp(14px,3vw,36px) clamp(20px,3vh,40px); display: flex; flex-direction: column; gap: 0; overflow-y: auto; }
+		.qualities-title { font-size: clamp(12px, 1.1vw, 15px); font-weight: 700; letter-spacing: 0.07em; margin-bottom: 6px; color: var(--black); }
+		.qualities-gold-line { height: 3px; background: var(--gold); max-width: 780px; margin-bottom: clamp(14px, 2vh, 22px); }
+		.reg-note { max-width: 780px; margin-bottom: 22px; font-size: clamp(11px, 1vw, 13px); color: #777; line-height: 1.65; background: #fffdf0; border-left: 3px solid var(--gold); padding: 10px 14px; }
+		.reg-note strong { color: var(--black); }
+		.rc-field-row { display: flex; align-items: stretch; max-width: 780px; margin-bottom: 13px; border: 2px solid var(--black); }
+		.rc-field-label { background: #f9f9f9; border-right: 2px solid var(--black); padding: 11px 18px; font-family: 'Source Serif 4', serif; font-size: clamp(12px, 1.1vw, 14px); font-weight: 600; color: var(--black); white-space: nowrap; display: flex; align-items: center; min-width: 190px; }
+		.rc-field-input { flex: 1; padding: 11px 14px; font-family: 'Source Serif 4', serif; font-size: clamp(12px, 1.1vw, 14px); color: var(--black); border: none; outline: none; background: #fff; }
+		.rc-field-input:focus { background: #fffdf0; }
+		.photo-upload-section { max-width: 780px; margin-bottom: 6px; }
+		.photo-section-label { font-size: clamp(12px, 1.1vw, 14px); font-weight: 600; color: var(--black); margin-bottom: 8px; letter-spacing: 0.03em; }
+		.drop-zone { border: 2px dashed #c0a800; background: #fffdf0; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 28px 20px; cursor: pointer; transition: background 0.2s, border-color 0.2s; position: relative; text-align: center; }
+		.drop-zone:hover, .drop-zone.dragover { background: #fff8d6; border-color: var(--gold); }
+		.drop-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+		.drop-zone-main { font-family: 'Source Serif 4', serif; font-size: clamp(13px, 1.2vw, 15px); font-weight: 700; color: var(--black); }
+		.drop-zone-sub { font-size: clamp(10px, 0.9vw, 12px); color: #888; margin-top: -6px; }
+		.drop-zone-btn { background: transparent; border: 1.5px solid #b0b0b0; color: #444; font-family: 'Source Serif 4', serif; font-size: clamp(11px, 1vw, 13px); font-weight: 600; padding: 7px 22px; cursor: pointer; letter-spacing: 0.04em; pointer-events: none; transition: border-color 0.18s, color 0.18s; }
+		.drop-zone:hover .drop-zone-btn { border-color: #888; color: var(--black); }
+		.drop-zone-meta { font-size: clamp(9px, 0.8vw, 11px); color: #aaa; }
+		.rc-photo-filename { margin-top: 7px; font-size: clamp(10px, 0.9vw, 12px); color: #888; font-style: italic; min-height: 18px; }
+		.rc-photo-filename.ok { color: #1a7f3c; font-style: normal; font-weight: 600; }
+		.rc-photo-filename.err { color: var(--red-accent); font-style: normal; font-weight: 600; }
+		.rc-photo-preview-wrap { max-width: 780px; margin: 12px 0 20px; display: none; border: 2px solid var(--black); position: relative; background: #111; height: 240px; overflow: hidden; }
+		.rc-photo-preview-wrap.show { display: block; }
+		.rc-photo-preview { width: 100%; height: 100%; object-fit: contain; display: block; user-select: none; -webkit-user-drag: none; }
+		.rc-photo-preview-tag { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.55); color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; padding: 3px 8px; text-transform: uppercase; pointer-events: none; z-index: 10; }
+		.crop-mask-top, .crop-mask-bottom, .crop-mask-left, .crop-mask-right { position: absolute; background: rgba(0,0,0,0.45); pointer-events: none; z-index: 4; transition: none; }
+		.crop-selection { position: absolute; border: 2px solid var(--gold); box-shadow: 0 0 0 1px rgba(0,0,0,0.5); z-index: 5; cursor: move; box-sizing: border-box; }
+		.crop-handle { position: absolute; width: 10px; height: 10px; background: var(--gold); border: 1.5px solid #fff; z-index: 6; }
+		.crop-handle.nw { top:-5px; left:-5px; cursor: nw-resize; }
+		.crop-handle.n { top:-5px; left:50%; transform:translateX(-50%); cursor: n-resize; }
+		.crop-handle.ne { top:-5px; right:-5px; cursor: ne-resize; }
+		.crop-handle.e { top:50%; right:-5px; transform:translateY(-50%); cursor: e-resize; }
+		.crop-handle.se { bottom:-5px; right:-5px; cursor: se-resize; }
+		.crop-handle.s { bottom:-5px; left:50%; transform:translateX(-50%); cursor: s-resize; }
+		.crop-handle.sw { bottom:-5px; left:-5px; cursor: sw-resize; }
+		.crop-handle.w { top:50%; left:-5px; transform:translateY(-50%); cursor: w-resize; }
+		.crop-info { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.65); color: #fff; font-size: 10px; font-weight: 600; padding: 3px 8px; letter-spacing: 0.06em; z-index: 10; pointer-events: none; font-family: 'Source Serif 4', monospace; }
+		.crop-reset-bar { max-width: 780px; margin: -14px 0 18px; display: none; justify-content: flex-end; gap: 10px; align-items: center; }
+		.crop-reset-bar.show { display: flex; }
+		.crop-reset-btn { font-size: 11px; font-weight: 600; color: #888; background: none; border: 1px solid #ddd; padding: 3px 12px; cursor: pointer; font-family: 'Source Serif 4', serif; transition: color 0.15s, border-color 0.15s; }
+		.crop-reset-btn:hover { color: var(--black); border-color: #aaa; }
+		.crop-section-hint { font-size: 11px; color: #aaa; font-style: italic; }
+		.reg-submit-wrap { max-width: 780px; display: flex; justify-content: center; margin: 28px 0 0; }
+		.reg-submit-btn { background: var(--gold); border: 2px solid #c8a000; color: var(--black); font-family: 'Source Serif 4', serif; font-size: clamp(13px, 1.2vw, 16px); font-weight: 700; padding: 11px 70px; cursor: pointer; transition: background 0.2s, transform 0.15s; letter-spacing: 0.05em; }
+		.reg-submit-btn:hover { background: #ffd000; transform: translateY(-1px); }
+		.reg-submit-btn:active { transform: scale(0.97); }
+		.reg-submit-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+		.reg-status { max-width: 780px; margin-top: 18px; font-size: clamp(12px, 1.1vw, 14px); font-weight: 700; padding: 10px 16px; border-radius: 2px; display: none; line-height: 1.55; }
+		.reg-status.ok { display: block; color: #1a7f3c; }
+		.reg-status.err { display: block; color: var(--red-accent); }
+		.reg-status.loading { display: block; color: #555; }
+		.footer-bar { background: #2a2a2a; display: flex; justify-content: space-between; align-items: center; padding: clamp(10px,1.2vw,14px) clamp(20px,5vw,60px); font-size: clamp(10px,0.95vw,12.5px); color: #888; flex-wrap: wrap; gap: 8px; }
+		.footer-credit { display: flex; align-items: center; gap: 5px; color: #999; }
+		.footer-heart { color: var(--red-accent); font-size: 14px; animation: heartbeat 1.6s ease-in-out infinite; }
+		@keyframes heartbeat { 0%, 100% { transform: scale(1); } 14% { transform: scale(1.25); } 28% { transform: scale(1); } 42% { transform: scale(1.15); } 56% { transform: scale(1); } }
+		@media (max-width: 560px) { .footer-bar { flex-direction: column; text-align: center; } }
+		.spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid #bbb; border-top-color: #555; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 7px; vertical-align: middle; }
+		@keyframes spin { to { transform: rotate(360deg); } }
+		@media (max-width: 600px) { .rc-field-label { width: 35%; padding: 8px 10px; } .rc-field-input { width: 65%; padding: 8px 10px; } .rc-photo-preview-wrap { height: 180px; } }
+	</style>
+</head>
+<body>
+<div class="page-wrapper">
+	<div class="header-band">
+		<div class="cs-title">College Saathi</div>
+		<div class="cs-subtitle">— Digital Multi College Ecosystem —</div>
+		<div class="cs-version" id="sysVersion">version: v1.0</div>
+	</div>
+	<div class="reg-body">
+		<div class="qualities-title">COLLEGE REGISTRATION:</div>
+		<div class="qualities-gold-line"></div>
+		<div class="reg-note">
+			<strong>Note:</strong> admin ID &amp; password will be used to manage the college page!!!
+		</div>
+		<div class="rc-field-row">
+			<span class="rc-field-label">College Name:</span>
+			<input class="rc-field-input" type="text" id="rc_name" placeholder="Enter your college name">
+		</div>
+		<div class="photo-upload-section">
+			<div class="photo-section-label">College Photo:</div>
+			<div class="drop-zone" id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+				<input type="file" id="rc_photoFile" accept="image/*" onchange="handlePhotoSelect(this)">
+				<div class="drop-zone-main">Drag &amp; drop your college photo here</div>
+				<div class="drop-zone-sub">or</div>
+				<div class="drop-zone-btn">+ &nbsp;Browse Files</div>
+				<div class="drop-zone-meta">Support only JPG, PNG, WEBP or GIF format with max 2MB size</div>
+			</div>
+			<div class="rc-photo-filename" id="rcPhotoFilename">No file chosen</div>
+		</div>
+		<div class="rc-photo-preview-wrap" id="rcPhotoPreviewWrap">
+			<img class="rc-photo-preview" id="rcPhotoPreview" src="" alt="College photo preview" draggable="false">
+			<span class="rc-photo-preview-tag"></span>
+			<div class="crop-mask-top" id="cmTop"></div>
+			<div class="crop-mask-bottom" id="cmBottom"></div>
+			<div class="crop-mask-left" id="cmLeft"></div>
+			<div class="crop-mask-right" id="cmRight"></div>
+			<div class="crop-selection" id="cropSel">
+				<div class="crop-handle nw" data-dir="nw"></div>
+				<div class="crop-handle n" data-dir="n"></div>
+				<div class="crop-handle ne" data-dir="ne"></div>
+				<div class="crop-handle e" data-dir="e"></div>
+				<div class="crop-handle se" data-dir="se"></div>
+				<div class="crop-handle s" data-dir="s"></div>
+				<div class="crop-handle sw" data-dir="sw"></div>
+				<div class="crop-handle w" data-dir="w"></div>
+			</div>
+			<div class="crop-info" id="cropInfo"></div>
+		</div>
+		<div class="crop-reset-bar" id="cropResetBar">
+			<button class="crop-reset-btn" onclick="resetCrop()">↺ Reset to Original</button>
+		</div>
+		<div class="rc-field-row" style="margin-top:4px;">
+			<span class="rc-field-label">Admin ID:</span>
+			<input class="rc-field-input" type="text" id="rc_adminId" placeholder="Enter the admin id" autocomplete="off">
+		</div>
+		<div class="rc-field-row">
+			<span class="rc-field-label">Admin Password:</span>
+			<input class="rc-field-input" type="password" id="rc_adminPwd" placeholder="Create a strong password" autocomplete="new-password">
+		</div>
+		<div class="rc-field-row">
+			<span class="rc-field-label">Confirm Password:</span>
+			<input class="rc-field-input" type="password" id="rc_adminPwdConfirm" placeholder="Re-enter password" autocomplete="new-password">
+		</div>
+		<div class="reg-submit-wrap">
+			<button class="reg-submit-btn" id="rcSubmitBtn" onclick="submitRegCollege()">
+				Register College
+			</button>
+		</div>
+		<div class="reg-status" id="rcStatus"></div>
+	</div>
+	<footer>
+		<div class="footer-bar">
+			<span>&copy; 2026 College Saathi. All Rights Reserved.</span>
+			<span class="footer-credit">Made with <span class="footer-heart">&#9829;</span> By Aditya Shankar</span>
+		</div>
+	</footer>
+</div>
+<script>
+const GITHUB_TOKEN = "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";
+const GITHUB_REPO_API = "https://api.github.com/repos/InnovateX26/COLLEGE_SAATHI_x_TEAM/contents/";
+const META_PATH = "g_meta_data.json";
+let selectedPhotoBase64 = "";
+let selectedPhotoMime = "";
+const cropState = { x: 0, y: 0, w: 0, h: 0 };
+let cropAction = null;
+function buildCollegeFiles(idKey, collegeName, adminId, adminPwd, image) {
+	return {
+		topbar: { path: `${idKey}/g_data_${idKey}_topbar.json`, data: { collegeName: null, logo: null } },
+		slider: { path: `${idKey}/g_data_${idKey}_slider.json`, data: { slider: [] } },
+		about: { path: `${idKey}/g_data_${idKey}_about.json`, data: { about: null } },
+		qualities: { path: `${idKey}/g_data_${idKey}_qualities.json`, data: { qualities: [] } },
+		members: { path: `${idKey}/g_data_${idKey}_members.json`, data: { members: [] } },
+		notices: { path: `${idKey}/g_data_${idKey}_notices.json`, data: { notices: [] } },
+		achievements: { path: `${idKey}/g_data_${idKey}_achievements.json`, data: { achievements: [] } },
+		faqs: { path: `${idKey}/g_data_${idKey}_faqs.json`, data: { faqs: [] } },
+		footer: { path: `${idKey}/g_data_${idKey}_footer.json`, data: { tagline: null, address: null, mapQuery: null, socials: { facebook: null, twitter: null, instagram: null, linkedin: null, youtube: null }, links: [] } },
+		user: { path: `${idKey}/g_data_${idKey}_user.json`, data: { users: [] } }
+	};
+}
+function handleDragOver(e) {
+	e.preventDefault();
+	const zone = document.getElementById('dropZone');
+	if (zone) zone.classList.add('dragover');
+}
+function handleDragLeave(e) {
+	const zone = document.getElementById('dropZone');
+	if (zone) zone.classList.remove('dragover');
+}
+function handleDrop(e) {
+	e.preventDefault();
+	const zone = document.getElementById('dropZone');
+	if (zone) zone.classList.remove('dragover');
+	const file = e.dataTransfer.files && e.dataTransfer.files[0];
+	if (file) {
+		const input = document.getElementById('rc_photoFile');
+		try {
+			const dt = new DataTransfer();
+			dt.items.add(file);
+			input.files = dt.files;
+		} catch(_) {}
+		processFile(file);
+	}
+}
+function handlePhotoSelect(input) {
+	const file = input.files && input.files[0];
+	if (file) processFile(file);
+}
+function processFile(file) {
+	const filenameEl = document.getElementById('rcPhotoFilename');
+	const previewWrap = document.getElementById('rcPhotoPreviewWrap');
+	const previewImg = document.getElementById('rcPhotoPreview');
+	const resetBar = document.getElementById('cropResetBar');
+	if (!file) return;
+	const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp'];
+	const MAX_SIZE = 2 * 1024 * 1024;
+	if (!ALLOWED_TYPES.includes(file.type)) {
+		filenameEl.className = 'rc-photo-filename err';
+		filenameEl.textContent = `Invalid file type.`;
+		return;
+	}
+	if (file.size > MAX_SIZE) {
+		filenameEl.className = 'rc-photo-filename err';
+		filenameEl.textContent = `File too large. Max 2MB.`;
+		return;
+	}
+	const reader = new FileReader();
+	reader.onload = (e) => {
+		const dataURL = e.target.result;
+		previewImg.src = dataURL;
+		selectedPhotoMime = file.type;
+		selectedPhotoBase64 = dataURL.split(',')[1];
+		previewWrap.classList.add('show');
+		resetBar.classList.add('show');
+		filenameEl.className = 'rc-photo-filename ok';
+		filenameEl.textContent = `Selected: ${file.name}`;
+		previewImg.onload = () => initCrop();
+	};
+	reader.readAsDataURL(file);
+}
+function initCrop() {
+	const wrap = document.getElementById('rcPhotoPreviewWrap');
+	if (!wrap) return;
+	const BW = wrap.clientWidth, BH = wrap.clientHeight;
+	setCrop(BW * 0.1, BH * 0.1, BW * 0.8, BH * 0.8);
+}
+function setCrop(x, y, w, h) {
+	const wrap = document.getElementById('rcPhotoPreviewWrap');
+	const BW = wrap.clientWidth, BH = wrap.clientHeight;
+	x = Math.max(0, Math.min(x, BW - 30));
+	y = Math.max(0, Math.min(y, BH - 30));
+	w = Math.max(30, Math.min(w, BW - x));
+	h = Math.max(30, Math.min(h, BH - y));
+	cropState.x = x; cropState.y = y;
+	cropState.w = w; cropState.h = h;
+	const sel = document.getElementById('cropSel');
+	sel.style.left = `${x}px`;
+	sel.style.top = `${y}px`;
+	sel.style.width = `${w}px`;
+	sel.style.height = `${h}px`;
+	updateMasks();
+	updateInfo();
+}
+document.getElementById('cropSel').onmousedown = e => {
+	const dir = e.target.dataset.dir;
+	cropAction = {
+		type: dir ? 'res' : 'mov',
+		dir: dir,
+		sx: cropState.x, sy: cropState.y,
+		sw: cropState.w, sh: cropState.h,
+		mx: e.clientX, my: e.clientY
+	};
+	e.preventDefault();
+	e.stopPropagation();
+};
+window.onmousemove = e => {
+	if (!cropAction) return;
+	const dx = e.clientX - cropAction.mx;
+	const dy = e.clientY - cropAction.my;
+	if (cropAction.type === 'mov') {
+		setCrop(cropAction.sx + dx, cropAction.sy + dy, cropAction.sw, cropAction.sh);
+	} else {
+		let { sx, sy, sw, sh } = cropAction;
+		let nx = sx, ny = sy, nw = sw, nh = sh;
+		if (cropAction.dir.includes('e')) nw = sw + dx;
+		if (cropAction.dir.includes('s')) nh = sh + dy;
+		if (cropAction.dir.includes('w')) { nx = sx + dx; nw = sw - dx; }
+		if (cropAction.dir.includes('n')) { ny = sy + dy; nh = sh - dy; }
+		setCrop(nx, ny, nw, nh);
+	}
+};
+window.onmouseup = () => { cropAction = null; };
+function updateMasks() {
+	const wrap = document.getElementById('rcPhotoPreviewWrap');
+	const { x, y, w, h } = cropState;
+	const BW = wrap.clientWidth;
+	const BH = wrap.clientHeight;
+	document.getElementById('cmTop').style.top = `0px`;
+	document.getElementById('cmTop').style.left = `0px`;
+	document.getElementById('cmTop').style.width = `100%`;
+	document.getElementById('cmTop').style.height = `${y}px`;
+	document.getElementById('cmBottom').style.top = `${y + h}px`;
+	document.getElementById('cmBottom').style.left = `0px`;
+	document.getElementById('cmBottom').style.width = `100%`;
+	document.getElementById('cmBottom').style.height = `${BH - (y + h)}px`;
+	document.getElementById('cmLeft').style.top = `${y}px`;
+	document.getElementById('cmLeft').style.left = `0px`;
+	document.getElementById('cmLeft').style.height = `${h}px`;
+	document.getElementById('cmLeft').style.width = `${x}px`;
+	document.getElementById('cmRight').style.top = `${y}px`;
+	document.getElementById('cmRight').style.left = `${x + w}px`;
+	document.getElementById('cmRight').style.height = `${h}px`;
+	document.getElementById('cmRight').style.width = `${BW - (x + w)}px`;
+}
+function updateInfo() {
+	const wrap = document.getElementById('rcPhotoPreviewWrap');
+	const img = document.getElementById('rcPhotoPreview');
+	const info = document.getElementById('cropInfo');
+	if (!img.naturalWidth) return;
+	const scaleX = img.naturalWidth / wrap.clientWidth;
+	const scaleY = img.naturalHeight / wrap.clientHeight;
+	info.textContent = `${Math.round(cropState.w * scaleX)} × ${Math.round(cropState.h * scaleY)} px`;
+}
+function resetCrop() {
+	initCrop();
+}
+const ghHeaders = () => ({
+	Authorization: `Bearer ${GITHUB_TOKEN}`,
+	Accept: 'application/vnd.github+json',
+	'Content-Type': 'application/json'
+});
+const toB64 = (obj) => btoa(unescape(encodeURIComponent(JSON.stringify(obj, null, 2))));
+async function ghGet(path) {
+	const res = await fetch(GITHUB_REPO_API + encodeURIComponent(path), { headers: ghHeaders() });
+	if (!res.ok) throw new Error(`GET ${path} failed (HTTP ${res.status})`);
+	const data = await res.json();
+	let parsed = null;
+	try { parsed = JSON.parse(atob(data.content.replace(/\n/g, ''))); } catch (_) {}
+	return { sha: data.sha, parsed };
+}
+async function ghPut(path, content_b64, message, sha) {
+	const url = GITHUB_REPO_API + encodeURIComponent(path);
+	const body = { message, content: content_b64, branch: "main" };
+	if (sha) body.sha = sha;
+	const res = await fetch(url, { method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body) });
+	if (!res.ok) {
+		const err = await res.json().catch(() => ({}));
+		throw new Error(err.message || `PUT ${path} failed`);
+	}
+	return res.json();
+}
+async function submitRegCollege() {
+	const name = document.getElementById('rc_name').value.trim();
+	const adminId = document.getElementById('rc_adminId').value.trim();
+	const adminPwd = document.getElementById('rc_adminPwd').value;
+	const adminPwd2 = document.getElementById('rc_adminPwdConfirm').value;
+	const st = document.getElementById('rcStatus');
+	const btn = document.getElementById('rcSubmitBtn');
+	const setStatus = (msg, type) => {
+		st.className = 'reg-status ' + type;
+		st.innerHTML = msg;
+	};
+	if (!name) return setStatus('College Name is required.', 'err');
+	if (!selectedPhotoBase64) return setStatus('Please choose a valid college photo.', 'err');
+	if (adminId.length < 4) return setStatus('Admin ID must be at least 4 characters.', 'err');
+	if (adminPwd.length < 6) return setStatus('Admin Password must be at least 6 characters.', 'err');
+	if (adminPwd !== adminPwd2) return setStatus('Passwords do not match!', 'err');
+	btn.disabled = true;
+	setStatus('<span class="spinner"></span> Connecting to database…', 'loading');
+	try {
+		const { sha: metaSha, parsed: metaRaw } = await ghGet(META_PATH);
+		let currentData = metaRaw || { meta: { version: "v1.0", changelogs: [] }, colleges: [] };
+		if (currentData.colleges.find(c => c.adminId === adminId)) {
+			setStatus(`Admin ID "<strong>${esc(adminId)}</strong>" is already taken.`, 'err');
+			btn.disabled = false;
+			return;
+		}
+		const idKey = `id${currentData.colleges.length + 1}`;
+		const cropped = getCroppedBase64();
+		const imageStr = `data:${cropped.mime};base64,${cropped.base64}`;
+		const files = buildCollegeFiles(idKey, name, adminId, adminPwd, imageStr);
+		const fileKeys = Object.keys(files);
+		for (let i = 0; i < fileKeys.length; i++) {
+			const key = fileKeys[i];
+			setStatus(`<span class="spinner"></span> Creating database ${i + 1}/${fileKeys.length}...`, 'loading');
+			await ghPut(files[key].path, toB64(files[key].data), `feat(${idKey}): init ${key}`);
+		}
+		currentData.colleges.push({
+			name,
+			image: imageStr,
+			adminId,
+			adminPwd,
+			addedAt: new Date().toISOString(),
+			files: Object.fromEntries(fileKeys.map(k => [k, `g_data_${idKey}_${k}.json`]))
+		});
+		const dateStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+		currentData.meta.changelogs.push(`[+] ${name} registered on ${dateStr}`);
+		setStatus('<span class="spinner"></span> Finalizing registration…', 'loading');
+		await ghPut(META_PATH, toB64(currentData), `feat: add ${idKey} to index`, metaSha);
+		setStatus(`<strong>${esc(name)}</strong> registered successfully!<br>Redirecting...`, 'ok');
+		setTimeout(() => window.location.href = 'menulist_page.html', 2000);
+	} catch (err) {
+		setStatus(`Error: ${esc(err.message)}`, 'err');
+		btn.disabled = false;
+	}
+}
+function getCroppedBase64() {
+	const wrap = document.getElementById('rcPhotoPreviewWrap');
+	const img = document.getElementById('rcPhotoPreview');
+	const { x, y, w, h } = cropState;
+	const iW = img.naturalWidth;
+	const iH = img.naturalHeight;
+	const containerW = wrap.clientWidth;
+	const containerH = wrap.clientHeight;
+	const imgRatio = iW / iH;
+	const containerRatio = containerW / containerH;
+	let displayedW, displayedH;
+	if (imgRatio > containerRatio) {
+		displayedW = containerW;
+		displayedH = containerW / imgRatio;
+	} else {
+		displayedH = containerH;
+		displayedW = containerH * imgRatio;
+	}
+	const offsetX = (containerW - displayedW) / 2;
+	const offsetY = (containerH - displayedH) / 2;
+	const scaleX = iW / displayedW;
+	const scaleY = iH / displayedH;
+	const realX = Math.max(0, (x - offsetX) * scaleX);
+	const realY = Math.max(0, (y - offsetY) * scaleY);
+	const realW = Math.min(iW - realX, w * scaleX);
+	const realH = Math.min(iH - realY, h * scaleY);
+	const canvas = document.createElement('canvas');
+	canvas.width = realW;
+	canvas.height = realH;
+	const ctx = canvas.getContext('2d');
+	ctx.imageSmoothingEnabled = true;
+	ctx.imageSmoothingQuality = 'high';
+	ctx.drawImage(img, realX, realY, realW, realH, 0, 0, realW, realH);
+	const dataURL = canvas.toDataURL('image/jpeg', 0.92);
+	return { 
+		base64: dataURL.substring(dataURL.indexOf(',') + 1), 
+		mime: 'image/jpeg' 
+	};
+}
+function esc(s) {
+	if (!s) return '';
+	return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;');
+}
+window.addEventListener('DOMContentLoaded', () => {
+	ghGet(META_PATH).then(data => {
+		const v = data.parsed?.meta?.version || "v1.0";
+		const verEl = document.getElementById('sysVersion');
+		if (verEl) verEl.textContent = 'version: ' + v;
+	}).catch(() => {});
+});
+</script>
+</body>
+</html>
