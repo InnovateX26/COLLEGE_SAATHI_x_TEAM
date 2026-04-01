@@ -1,11 +1,32 @@
 {
   "meta": {
     "version": "v1.0",
-    "tagline": "Digital Multi College Ecosystem",
+    "tagline": "Connecting college communities and creating meaningful educational experiences that empower students to achieve their goals",
     "changelogs": [
       "[+] Initial version of College Saathi v1.0 has been released",
-      "[+] IIT, Lakhisarai registered on 29 Mar 2026"
+      "[+] IIT, Lakhisarai registered on 29 Mar 2026",
+      "[+] Jamui Engineering College registered on 01 Apr 2026"
     ]
   },
-  "colleges": []
+  "colleges": [
+    {
+      "name": "Jamui Engineering College",
+      "image": "data:image/jpeg;base64,/9j/4AAQSkZJRg...",
+      "adminId": "admin_jamui",
+      "adminPwd": "SecurePassword123",
+      "addedAt": "2026-04-01T10:50:18.000Z",
+      "files": {
+        "topbar": "g_data_id1_topbar.json",
+        "slider": "g_data_id1_slider.json",
+        "about": "g_data_id1_about.json",
+        "qualities": "g_data_id1_qualities.json",
+        "members": "g_data_id1_members.json",
+        "notices": "g_data_id1_notices.json",
+        "achievements": "g_data_id1_achievements.json",
+        "faqs": "g_data_id1_faqs.json",
+        "footer": "g_data_id1_footer.json",
+        "user": "g_data_id1_user.json"
+      }
+    }
+  ]
 }
