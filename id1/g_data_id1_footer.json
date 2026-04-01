@@ -1,13 +1,46 @@
 {
   "tagline": null,
-  "address": null,
-  "mapQuery": null,
+  "address": "Amrath Post :Amrath,\nDist: Jamui, Bihar 811313",
+  "mapQuery": "Government+Engineering+College+Jamui+Biha",
   "socials": {
-    "facebook": null,
-    "twitter": null,
-    "instagram": null,
-    "linkedin": null,
-    "youtube": null
+    "facebook": "https://www.facebook.com/",
+    "twitter": "https://twitter.com/",
+    "instagram": "",
+    "linkedin": "",
+    "youtube": ""
   },
-  "links": []
+  "links": [
+    {
+      "name": " Social Welfare Dept. Bihar",
+      "url": "https://state.bihar.gov.in/socialwelfare/CitizenHome.html"
+    },
+    {
+      "name": "Swayam",
+      "url": "https://swayam.gov.in/https://state.bihar.gov.in/socialwelfare/CitizenHome.html"
+    },
+    {
+      "name": "NPTEL",
+      "url": "https://nptel.ac.in/https://swayam.gov.in/https://state.bihar.gov.in/socialwelfare/CitizenHome.html"
+    },
+    {
+      "name": "All India Council for Technical Education (AICTE)",
+      "url": "https://www.aicte-india.org/https://nptel.ac.in/https://swayam.gov.in/https://state.bihar.gov.in/socialwelfare/CitizenHome.html"
+    },
+    {
+      "name": "DST, Bihar",
+      "url": "https://state.bihar.gov.in/dst/CitizenHome.htmlhttps://www.aicte-india.org/https://nptel.ac.in/https://swayam.gov.in/https://state.bihar.gov.in/socialwelfare/CitizenHome.html"
+    },
+    {
+      "name": "BCECEB",
+      "url": "http://bceceboard.bihar.gov.in/https://state.bihar.gov.in/dst/CitizenHome.htmlhttps://www.aicte-india.org/https://nptel.ac.in/https://swayam.gov.in/https://state.bihar.gov.in/socialwelfare/CitizenHome.html"
+    },
+    {
+      "name": "Aryabhatta Knowledge University",
+      "url": "hhttp://akubihar.ac.in/ttp://bceceboard.bihar.gov.in/https://state.bihar.gov.in/dst/CitizenHome.htmlhttps://www.aicte-india.org/https://nptel.ac.in/https://swayam.gov.in/https://state.bihar.gov.in/socialwelfare/CitizenHome.html"
+    },
+    {
+      "name": "Education Dept. Bihar",
+      "url": "https://state.bihar.gov.in/educationbihar/CitizenHome.htmlhhttp://akubihar.ac.in/ttp://bceceboard.bihar.gov.in/https://state.bihar.gov.in/dst/CitizenHome.htmlhttps://www.aicte-india.org/https://nptel.ac.in/https://swayam.gov.in/https://state.bihar.gov.in/socialwelfare/CitizenHome.html"
+    }
+  ]
 }
