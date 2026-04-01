@@ -1,13 +1,4 @@
 {
   "users": [
-    {
-      "uid": "aditya",
-      "name": "ADITYA SHANKAR",
-      "rollNo": "12431234",
-      "branch": "CS (AI/ML)",
-      "batch": "2025-29",
-      "pwd": "123456",
-      "registeredAt": "2026-04-01T17:53:48.848Z"
-    }
   ]
 }
