@@ -12,7 +12,372 @@
     <title>College Saathi</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /*TODO*/
+        :root {
+            --gold: #F5C200;
+            --black: #1a1a1a;
+            --white: #FFFFFF;
+            --text-body: #222222;
+            --border: #E5E5E5;
+            --grey: #F4F4F4;
+            --red-accent: #CC2244;
+        }
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: #e8e8e8;
+            color: var(--text-body);
+            overflow-x: hidden;
+        }
+        .page-wrapper {
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--white);
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.22);
+            position: relative;
+            overflow: hidden;
+        }
+        .header-band {
+            width: 100%;
+            background: var(--gold);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 11px 20px 9px;
+        }
+        .cs-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(22px, 3.8vw, 40px);
+            font-weight: 900;
+            color: var(--black);
+            letter-spacing: 0.02em;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+        .cs-subtitle {
+            font-family: 'Source Serif 4', serif;
+            font-size: clamp(7px, 0.8vw, 10px);
+            font-weight: 600;
+            color: var(--black);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1px;
+        }
+        .cs-version {
+            font-family: 'Source Serif 4', serif;
+            font-size: clamp(7px, 0.7vw, 9px);
+            color: var(--black);
+            text-decoration: underline;
+            opacity: 0.65;
+        }
+        .main-content {
+            flex: 1;
+            padding: clamp(14px, 2vw, 28px) clamp(14px, 3vw, 36px) clamp(20px, 3vh, 40px);
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            overflow-y: auto;
+        }
+        .qualities-title {
+            font-size: clamp(12px, 1.1vw, 15px);
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            margin-bottom: 6px;
+            color: var(--black);
+        }
+        .qualities-gold-line {
+            height: 3px;
+            background: var(--gold);
+            margin-bottom: clamp(14px, 2vh, 22px);
+        }
+        .search-row {
+            display: flex;
+            align-items: stretch;
+            border: 2px solid var(--grey);
+            background: var(--white);
+            height: 42px;
+            width: min(50vw, 600px);
+            min-width: 220px;
+            margin: 0 auto clamp(14px, 2vh, 22px) auto;
+        }
+        .search-icon-wrap {
+            width: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 2px solid var(--grey);
+            flex-shrink: 0;
+            color: var(--black);
+            background: #f9f9f9;
+        }
+        .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-family: 'Source Serif 4', serif;
+            font-size: clamp(12px, 1.1vw, 14px);
+            color: var(--black);
+            padding: 0 14px;
+            background: transparent;
+        }
+        .search-input::placeholder {
+            color: #aaa;
+        }
+        .search-clear {
+            width: 38px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            color: #999;
+            flex-shrink: 0;
+            padding: 0;
+            transition: color 0.15s;
+        }
+        .search-clear:hover {
+            color: var(--black);
+        }
+        .colleges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(clamp(160px, 20vw, 260px), 1fr));
+            gap: clamp(10px, 1.5vw, 20px);
+        }
+        @media (max-width: 520px) {
+            .colleges-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .college-card {
+            display: flex;
+            flex-direction: column;
+            border: 1.5px solid var(--border);
+            background: var(--white);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow 0.22s, border-color 0.22s, background 0.22s, transform 0.18s;
+        }
+        .college-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.28s ease;
+            z-index: 2;
+        }
+        .college-card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.09);
+            border-color: var(--gold);
+            background: #fffdf0;
+            transform: translateY(-3px);
+        }
+        .college-card:hover::before {
+            transform: scaleX(1);
+        }
+        .college-card-img-wrap {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background: #888;
+            flex-shrink: 0;
+        }
+        .college-card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .college-card:hover .college-card-img-wrap img {
+            transform: scale(1.05);
+        }
+        .college-card-body {
+            padding: clamp(8px, 1vw, 12px) clamp(10px, 1.2vw, 16px) clamp(6px, 0.8vw, 10px);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .college-card-name {
+            font-size: clamp(10px, 0.95vw, 13px);
+            font-weight: 700;
+            color: var(--black);
+            line-height: 1.35;
+            letter-spacing: 0.02em;
+        }
+        .college-card-tag {
+            font-size: clamp(8px, 0.75vw, 10px);
+            color: #888;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+        }
+        .college-card-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #bbb 0%, #888 100%);
+        }
+        .college-card.register-card {
+            background: #fffdf0;
+            border: 1.5px dashed #c8a000;
+            align-items: center;
+            justify-content: center;
+            min-height: 130px;
+            gap: 4px;
+        }
+        .college-card.register-card:hover {
+            background: #fff8dc;
+            border-color: var(--gold);
+        }
+        .college-card.register-card::before {
+            display: none;
+        }
+        .register-plus {
+            font-size: 38px;
+            font-weight: 200;
+            color: #c8a000;
+            line-height: 1;
+            font-family: 'Source Serif 4', serif;
+        }
+        .register-label {
+            font-family: 'Source Serif 4', serif;
+            font-size: clamp(9px, 0.85vw, 11px);
+            font-weight: 700;
+            color: var(--black);
+            text-align: center;
+            padding: 0 12px;
+        }
+        .no-results,
+        .fetch-error {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 40px;
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+        }
+        .fetch-error {
+            color: #cc2244;
+        }
+        .retry-btn {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 8px 28px;
+            background: var(--gold);
+            border: 2px solid #c8a000;
+            font-family: 'Source Serif 4', serif;
+            font-size: clamp(13px, 1.2vw, 16px);
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            letter-spacing: 0.05em;
+        }
+        .retry-btn:hover {
+            background: #ffd000;
+            transform: translateY(-1px);
+        }
+        .retry-btn:active {
+            transform: scale(0.97);
+        }
+        .retry-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .skeleton-card {
+            border: 1.5px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+        .skeleton-img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(90deg, #e0e0e0 25%, #ebebeb 50%, #e0e0e0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.3s infinite;
+        }
+        .skeleton-body {
+            padding: 10px 14px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+        .skeleton-line {
+            height: 10px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #e0e0e0 25%, #ebebeb 50%, #e0e0e0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.3s infinite;
+        }
+        .skeleton-line.short {
+            width: 50%;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .footer-bar {
+            background: #2a2a2a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: clamp(10px, 1.2vw, 14px) clamp(20px, 5vw, 60px);
+            font-size: clamp(10px, 0.95vw, 12.5px);
+            color: #888;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .footer-credit {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #999;
+        }
+        .footer-heart {
+            color: var(--red-accent);
+            font-size: 14px;
+            animation: heartbeat 1.6s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            14% { transform: scale(1.25); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.15); }
+            56% { transform: scale(1); }
+        }
+        @media (max-width: 560px) {
+            .footer-bar {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        @media (max-width: 700px) {
+            .main-content {
+                padding: 16px;
+            }
+            .search-row {
+                width: 100%;
+                min-width: unset;
+            }
+        }
     </style>
 </head>
 <body>
