@@ -1,10 +1,12 @@
 {
   "meta": {
     "version": "v1.0",
-    "tagline": "Connecting college communities and creating meaningful educational experience that empower students to achieve their goals.",
+    "tagline": "Connecting college communities and creating meaningful educational experiences that empower students to achieve their goals",
     "changelogs": [
-      "[+] =======Hackathon=====",
-      "[+] The project is under development"
+      "[+] Initial version of College Saathi v1.0 has been released",
+      "[+] IIT, Lakhisarai registered on 29 Mar 2026"
     ]
-  }
+  },
+  "colleges": [
+  ]
 }
