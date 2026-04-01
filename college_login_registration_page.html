@@ -1,0 +1,138 @@
+<!--
+    @EVENT: INNOVATE-X
+    @PROJECT: COLLEGE SAATHI
+    @AUTHOR: COLLEGE SAAHTI X TEAM
+    @DATE: 01-04-2026
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College Saathi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@300;400;600&display=swap">
+<style>
+	:root { --gold: #F5C200; --black: #1a1a1a; --white: #FFFFFF; --red-accent: #CC2244; --text-body: #222222; }
+	*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+	body { font-family: 'Source Serif 4', Georgia, serif; background: #e8e8e8; height: 100vh; overflow: hidden; }
+	.page-wrapper { width: 100vw; height: 100vh; display: flex; flex-direction: column; background: var(--white); box-shadow: 0 0 60px rgba(0,0,0,0.22); }
+	.register-topbar { background: var(--gold); padding: 0 clamp(16px, 2.5vw, 32px); height: 38px; display: flex; align-items: center; flex-shrink: 0; }
+	.register-topbar-title { font-family: 'Playfair Display', serif; font-size: clamp(14px, 1.6vw, 20px); font-weight: 700; color: var(--black); letter-spacing: 0.04em; }
+	.register-body { flex: 1; overflow-y: auto; padding: clamp(28px, 4vw, 52px) clamp(20px, 5vw, 60px) 40px; }
+	.register-heading { font-family: 'Source Serif 4', serif; font-size: clamp(14px, 1.4vw, 18px); font-weight: 600; color: var(--text-body); margin-bottom: 8px; }
+	.register-gold-line { height: 2px; background: var(--gold); margin-bottom: clamp(18px, 2.5vh, 30px); max-width: 780px; }
+	.register-note { max-width: 780px; margin-bottom: 25px; font-size: clamp(11px, 1vw, 13px); color: #777; line-height: 1.65; background: #fffdf0; border-left: 3px solid var(--gold); padding: 10px 14px; }
+	.reg-field-row { display: flex; align-items: stretch; max-width: 780px; margin-bottom: 14px; border: 2px solid var(--black); }
+	.reg-field-label { background: #f9f9f9; border-right: 2px solid var(--black); padding: 12px 18px; font-size: clamp(12px, 1.1vw, 14px); font-weight: 600; color: var(--black); white-space: nowrap; display: flex; align-items: center; min-width: 160px; }
+	.reg-field-input, .reg-field-select { flex: 1; padding: 12px 16px; font-family: 'Source Serif 4', serif; font-size: clamp(12px, 1.1vw, 14px); color: var(--black); border: none; outline: none; background: #fff; }
+	.register-submit-wrap { max-width: 780px; display: flex; flex-direction: column; align-items: center; margin: 20px 0 0; gap: 15px; }
+	.register-submit-btn { background: var(--gold); border: 2px solid #c8a000; color: var(--black); font-family: 'Source Serif 4', serif; font-size: clamp(13px, 1.2vw, 16px); font-weight: 700; padding: 10px 60px; cursor: pointer; transition: background 0.2s, transform 0.15s; letter-spacing: 0.04em; }
+	.register-status-msg { display: none; max-width: 780px; margin-top: 20px; padding: 8px 14px; font-size: 13px; font-weight: 600; }
+	.footer-bar { background: #2a2a2a; display: flex; justify-content: space-between; align-items: center; padding: clamp(10px,1.2vw,14px) clamp(20px,5vw,60px); font-size: clamp(10px,0.95vw,12.5px); color: #888; flex-wrap: wrap; gap: 8px; }
+	.footer-credit { display: flex; align-items: center; gap: 5px; color: #999; }
+	.footer-heart { color: var(--red-accent); font-size: 14px; animation: heartbeat 1.6s ease-in-out infinite; }
+	@keyframes heartbeat { 0%, 100% { transform: scale(1); } 14% { transform: scale(1.25); } 28% { transform: scale(1); } 42% { transform: scale(1.15); } 56% { transform: scale(1); } }
+	@media (max-width: 560px) { .footer-bar { flex-direction: column; text-align: center; } }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+	<div class="register-topbar"><span class="register-topbar-title">REGISTER PAGE</span></div>
+	<div class="register-body">
+		<div class="register-heading">Create Your Account:</div>
+		<div class="register-gold-line"></div>
+		<div class="register-note">Note: your Unique_ID & Password will be used in login page!!!</div>
+		<div class="reg-field-row"><span class="reg-field-label">Full Name:</span><input class="reg-field-input" type="text" id="regName" placeholder="enter your full name"></div>
+		<div class="reg-field-row"><span class="reg-field-label">Unique_ID:</span><input class="reg-field-input" type="text" id="regUID" placeholder="create your unique id -> gecl_2025cse_8"></div>
+		<div class="reg-field-row"><span class="reg-field-label">Roll Number:</span><input class="reg-field-input" type="text" id="regRoll" placeholder="enter your roll number"></div>
+		<div class="reg-field-row">
+			<span class="reg-field-label">Branch:</span>
+			<select class="reg-field-select" id="regBranch">
+				<option value="">-- Select Branch --</option>
+				<option value="Civil Engineering">Civil Engineering</option>
+				<option value="Mechanical Engineering">Mechanical Engineering</option>
+				<option value="Electrical Engineering">Electrical Engineering</option>
+				<option value="CS (Data Science)">CS (Data Science)</option>
+				<option value="CS (AI/ML)">CS (AI/ML)</option>
+			</select>
+		</div>
+		<div class="reg-field-row"><span class="reg-field-label">Batch / Year:</span><input class="reg-field-input" type="text" id="regBatch" placeholder="enter your bacth year -> 2025–2029"></div>
+		<div class="reg-field-row"><span class="reg-field-label">Password:</span><input class="reg-field-input" type="password" id="regPwd" placeholder="create a strong password"></div>
+		<div class="reg-field-row"><span class="reg-field-label">Confirm Password:</span><input class="reg-field-input" type="password" id="regPwdConfirm" placeholder="re-enter password"></div>
+		<div class="register-submit-wrap">
+			<button class="register-submit-btn" onclick="doRegister()">Register</button>
+		</div>
+		<div style="text-align: center; margin-top: 20px; max-width: 780px;">
+			<a id="dynamicLoginLink" href="#" style="color: var(--black); font-weight: 600; font-size: 14px; text-decoration: underline;">Already registered? Login here</a>
+		</div>
+		<div class="register-status-msg" id="registerStatusMsg"></div>
+	</div>
+	<footer>
+		<div class="footer-bar">
+			<span>&copy; 2026 College Saathi. All Rights Reserved.</span>
+			<span class="footer-credit">Made with <span class="footer-heart">&#9829;</span> By Aditya Shankar</span>
+		</div>
+	</footer>
+</div>
+<script>
+	const GITHUB_TOKEN = "__API__";
+	const META_RAW_URL = "https://raw.githubusercontent.com/InnovateX26/COLLEGE_SAATHI_x_TEAM/refs/heads/main/g_meta_data.json";
+	const GITHUB_BASE = "https://api.github.com/repos/InnovateX26/COLLEGE_SAATHI_x_TEAM/contents/";
+	const COLLEGE_INDEX = (() => {
+		const v = parseInt(new URLSearchParams(window.location.search).get('college'), 10);
+		return isNaN(v) ? 0 : v;
+	})();
+	document.getElementById('dynamicLoginLink').href = `college_login_page.html?college=${COLLEGE_INDEX}`;
+	async function doRegister() {
+		const name = document.getElementById('regName').value.trim();
+		const uid = document.getElementById('regUID').value.trim();
+		const roll = document.getElementById('regRoll').value.trim();
+		const branch = document.getElementById('regBranch').value;
+		const batch = document.getElementById('regBatch').value.trim();
+		const pwd = document.getElementById('regPwd').value;
+		const pwd2 = document.getElementById('regPwdConfirm').value;
+		const msgEl = document.getElementById('registerStatusMsg');
+		const btn = document.querySelector('.register-submit-btn');
+		if (!name || !uid || !roll || !branch || !batch || !pwd || !pwd2) { 
+			msgEl.textContent = 'Fill all fields!'; 
+			msgEl.style.display = 'block';
+			msgEl.style.color = '#CC2244';
+			return; 
+		}
+		btn.disabled = true;
+		msgEl.style.display = 'block';
+		msgEl.textContent = 'Processing...';
+		try {
+			const metaRes = await fetch(META_RAW_URL + '?t=' + Date.now());
+			const meta = await metaRes.json();
+			const college = meta.colleges[COLLEGE_INDEX];
+			const path = `id${COLLEGE_INDEX + 1}/${college.files.user}`;
+			const res = await fetch(GITHUB_BASE + encodeURIComponent(path) + '?t=' + Date.now(), { 
+				headers: { Authorization: `Bearer ${GITHUB_TOKEN}` }
+			});
+			const data = await res.json();
+			const users = JSON.parse(atob(data.content.replace(/\n/g, ''))).users || [];
+			if (users.find(u => u.uid === uid)) { 
+				msgEl.textContent = `ID already taken!`; btn.disabled = false; return; 
+			}
+			users.push({ uid, name, rollNo: roll, branch, batch, pwd, registeredAt: new Date().toISOString() });
+			await fetch(GITHUB_BASE + encodeURIComponent(path), {
+				method: 'PUT',
+				headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					message: "auth: sync user registration",
+					content: btoa(unescape(encodeURIComponent(JSON.stringify({ users }, null, 2)))),
+					sha: data.sha
+				})
+			});
+			msgEl.textContent = `Registered! Redirecting...`;
+			setTimeout(() => { location.href = `college_login_page.html?college=${COLLEGE_INDEX}`; }, 2000);
+		} catch (err) { 
+			msgEl.textContent = `Error: ${err.message}`; btn.disabled = false; 
+		}
+	}
+</script>
+</body>
+</html>
