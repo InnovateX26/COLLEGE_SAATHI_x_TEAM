@@ -7,563 +7,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College Saathi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --gold: #F5C200;
-            --black: #1a1a1a;
-            --white: #FFFFFF;
-            --text-body: #222222;
-            --border: #E5E5E5;
-            --grey: #F4F4F4;
-            --red-accent: #CC2244;
-        }
-        *,
-        *::before,
-        *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html,
-        body {
-            width: 100%;
-            min-height: 100%;
-            font-family: 'Source Serif 4', Georgia, serif;
-            background: #e8e8e8;
-            color: var(--text-body);
-            overflow-x: hidden;
-        }
-        .page-wrapper {
-            width: 100vw;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background: var(--white);
-            box-shadow: 0 0 60px rgba(0, 0, 0, 0.22);
-            position: relative;
-            overflow: hidden;
-        }
-        .header-band {
-            width: 100%;
-            background: var(--gold);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 11px 20px 9px;
-        }
-        .cs-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(22px, 3.8vw, 40px);
-            font-weight: 900;
-            color: var(--black);
-            letter-spacing: 0.02em;
-            line-height: 1;
-            margin-bottom: 2px;
-        }
-        .cs-subtitle {
-            font-family: 'Source Serif 4', serif;
-            font-size: clamp(7px, 0.8vw, 10px);
-            font-weight: 600;
-            color: var(--black);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-bottom: 1px;
-        }
-        .cs-version {
-            font-family: 'Source Serif 4', serif;
-            font-size: clamp(7px, 0.7vw, 9px);
-            color: var(--black);
-            text-decoration: underline;
-            opacity: 0.65;
-        }
-        .main-content {
-            flex: 1;
-            padding: clamp(14px, 2vw, 28px) clamp(14px, 3vw, 36px) clamp(20px, 3vh, 40px);
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-            overflow-y: auto;
-        }
-        .qualities-title {
-            font-size: clamp(12px, 1.1vw, 15px);
-            font-weight: 700;
-            letter-spacing: 0.07em;
-            margin-bottom: 6px;
-            color: var(--black);
-        }
-        .qualities-gold-line {
-            height: 3px;
-            background: var(--gold);
-            margin-bottom: clamp(14px, 2vh, 22px);
-        }
-        .search-row {
-            display: flex;
-            align-items: stretch;
-            border: 2px solid var(--grey);
-            background: var(--white);
-            height: 42px;
-            width: min(50vw, 600px);
-            min-width: 220px;
-            margin: 0 auto clamp(14px, 2vh, 22px) auto;
-        }
-        .search-icon-wrap {
-            width: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-right: 2px solid var(--grey);
-            flex-shrink: 0;
-            color: var(--black);
-            background: #f9f9f9;
-        }
-        .search-input {
-            flex: 1;
-            border: none;
-            outline: none;
-            font-family: 'Source Serif 4', serif;
-            font-size: clamp(12px, 1.1vw, 14px);
-            color: var(--black);
-            padding: 0 14px;
-            background: transparent;
-        }
-        .search-input::placeholder {
-            color: #aaa;
-        }
-        .search-clear {
-            width: 38px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-            color: #999;
-            flex-shrink: 0;
-            padding: 0;
-            transition: color 0.15s;
-        }
-        .search-clear:hover {
-            color: var(--black);
-        }
-        .colleges-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(clamp(160px, 20vw, 260px), 1fr));
-            gap: clamp(10px, 1.5vw, 20px);
-        }
-        @media (max-width: 520px) {
-            .colleges-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        .college-card {
-            display: flex;
-            flex-direction: column;
-            border: 1.5px solid var(--border);
-            background: var(--white);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: box-shadow 0.22s, border-color 0.22s, background 0.22s, transform 0.18s;
-        }
-        .college-card::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gold);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.28s ease;
-            z-index: 2;
-        }
-        .college-card:hover {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.09);
-            border-color: var(--gold);
-            background: #fffdf0;
-            transform: translateY(-3px);
-        }
-        .college-card:hover::before {
-            transform: scaleX(1);
-        }
-        .college-card-img-wrap {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            overflow: hidden;
-            background: #888;
-            flex-shrink: 0;
-        }
-        .college-card-img-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.4s ease;
-        }
-        .college-card:hover .college-card-img-wrap img {
-            transform: scale(1.05);
-        }
-        .college-card-body {
-            padding: clamp(8px, 1vw, 12px) clamp(10px, 1.2vw, 16px) clamp(6px, 0.8vw, 10px);
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-        .college-card-name {
-            font-size: clamp(10px, 0.95vw, 13px);
-            font-weight: 700;
-            color: var(--black);
-            line-height: 1.35;
-            letter-spacing: 0.02em;
-        }
-        .college-card-tag {
-            font-size: clamp(8px, 0.75vw, 10px);
-            color: #888;
-            font-weight: 400;
-            letter-spacing: 0.03em;
-        }
-        .college-card-placeholder {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #bbb 0%, #888 100%);
-        }
-        .college-card.register-card {
-            background: #fffdf0;
-            border: 1.5px dashed #c8a000;
-            align-items: center;
-            justify-content: center;
-            min-height: 130px;
-            gap: 4px;
-        }
-        .college-card.register-card:hover {
-            background: #fff8dc;
-            border-color: var(--gold);
-        }
-        .college-card.register-card::before {
-            display: none;
-        }
-        .register-plus {
-            font-size: 38px;
-            font-weight: 200;
-            color: #c8a000;
-            line-height: 1;
-            font-family: 'Source Serif 4', serif;
-        }
-        .register-label {
-            font-family: 'Source Serif 4', serif;
-            font-size: clamp(9px, 0.85vw, 11px);
-            font-weight: 700;
-            color: var(--black);
-            text-align: center;
-            padding: 0 12px;
-        }
-        .no-results,
-        .fetch-error {
-            grid-column: 1/-1;
-            text-align: center;
-            padding: 40px;
-            font-size: 14px;
-            color: #666;
-            font-weight: 600;
-        }
-        .fetch-error {
-            color: #cc2244;
-        }
-        .retry-btn {
-            display: inline-block;
-            margin-top: 14px;
-            padding: 8px 28px;
-            background: var(--gold);
-            border: 2px solid #c8a000;
-            font-family: 'Source Serif 4', serif;
-            font-size: clamp(13px, 1.2vw, 16px);
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.15s;
-            letter-spacing: 0.05em;
-        }
-        .retry-btn:hover {
-            background: #ffd000;
-            transform: translateY(-1px);
-        }
-        .retry-btn:active {
-            transform: scale(0.97);
-        }
-        .retry-btn:disabled {
-            opacity: 0.55;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .skeleton-card {
-            border: 1.5px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            background: #f5f5f5;
-        }
-        .skeleton-img {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: linear-gradient(90deg, #e0e0e0 25%, #ebebeb 50%, #e0e0e0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.3s infinite;
-        }
-        .skeleton-body {
-            padding: 10px 14px 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-        .skeleton-line {
-            height: 10px;
-            border-radius: 2px;
-            background: linear-gradient(90deg, #e0e0e0 25%, #ebebeb 50%, #e0e0e0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.3s infinite;
-        }
-        .skeleton-line.short {
-            width: 50%;
-        }
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        .footer-bar {
-            background: #2a2a2a;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: clamp(10px, 1.2vw, 14px) clamp(20px, 5vw, 60px);
-            font-size: clamp(10px, 0.95vw, 12.5px);
-            color: #888;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .footer-credit {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: #999;
-        }
-        .footer-heart {
-            color: var(--red-accent);
-            font-size: 14px;
-            animation: heartbeat 1.6s ease-in-out infinite;
-        }
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            14% { transform: scale(1.25); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.15); }
-            56% { transform: scale(1); }
-        }
-        @media (max-width: 560px) {
-            .footer-bar {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-        @media (max-width: 700px) {
-            .main-content {
-                padding: 16px;
-            }
-            .search-row {
-                width: 100%;
-                min-width: unset;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College Saathi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+	:root { --gold: #F5C200; --black: #1a1a1a; --white: #FFFFFF; --text-body: #222222; --border: #E5E5E5; --grey: #F4F4F4; --red-accent: #CC2244; }
+	*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+	html, body { width: 100%; min-height: 100%; font-family: 'Source Serif 4', Georgia, serif; background: #e8e8e8; color: var(--text-body); overflow-x: hidden; }
+	.page-wrapper { width: 100vw; min-height: 100vh; display: flex; flex-direction: column; background: var(--white); box-shadow: 0 0 60px rgba(0,0,0,0.22); position: relative; overflow: hidden; }
+	.header-band { width: 100%; background: var(--gold); display: flex; flex-direction: column; align-items: center; padding: 11px 20px 9px; }
+	.cs-title { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3.8vw, 40px); font-weight: 900; color: var(--black); letter-spacing: 0.02em; line-height: 1; margin-bottom: 2px; }
+	.cs-subtitle { font-family: 'Source Serif 4', serif; font-size: clamp(7px, 0.8vw, 10px); font-weight: 600; color: var(--black); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1px; }
+	.cs-version { font-family: 'Source Serif 4', serif; font-size: clamp(7px, 0.7vw, 9px); color: var(--black); text-decoration: underline; opacity: 0.65; }
+	.main-content { flex: 1; padding: clamp(14px,2vw,28px) clamp(14px,3vw,36px) clamp(20px,3vh,40px); display: flex; flex-direction: column; gap: 0; overflow-y: auto; }
+	.qualities-title { font-size: clamp(12px,1.1vw,15px); font-weight: 700; letter-spacing: 0.07em; margin-bottom: 6px; color: var(--black); }
+	.qualities-gold-line { height: 3px; background: var(--gold); margin-bottom: clamp(14px,2vh,22px); }
+	.search-row { display: flex; align-items: stretch; border: 2px solid var(--grey); background: var(--white); height: 42px; width: min(50vw, 600px); min-width: 220px; margin: 0 auto clamp(14px,2vh,22px) auto; }
+	.search-icon-wrap { width: 42px; display: flex; align-items: center; justify-content: center; border-right: 2px solid var(--grey); flex-shrink: 0; color: var(--black); background: #f9f9f9; }
+	.search-input { flex: 1; border: none; outline: none; font-family: 'Source Serif 4', serif; font-size: clamp(12px,1.1vw,14px); color: var(--black); padding: 0 14px; background: transparent; }
+	.search-input::placeholder { color: #aaa; }
+	.search-clear { width: 38px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #999; flex-shrink: 0; padding: 0; transition: color 0.15s; }
+	.search-clear:hover { color: var(--black); }
+	.colleges-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(clamp(160px,20vw,260px), 1fr)); gap: clamp(10px,1.5vw,20px); }
+	@media (max-width: 520px) { .colleges-grid { grid-template-columns: repeat(2, 1fr); } }
+	.college-card { display: flex; flex-direction: column; border: 1.5px solid var(--border); background: var(--white); cursor: pointer; position: relative; overflow: hidden; transition: box-shadow 0.22s, border-color 0.22s, background 0.22s, transform 0.18s; }
+	.college-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.28s ease; z-index: 2; }
+	.college-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.09); border-color: var(--gold); background: #fffdf0; transform: translateY(-3px); }
+	.college-card:hover::before { transform: scaleX(1); }
+	.college-card-img-wrap { width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #888; flex-shrink: 0; }
+	.college-card-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+	.college-card:hover .college-card-img-wrap img { transform: scale(1.05); }
+	.college-card-body { padding: clamp(8px,1vw,12px) clamp(10px,1.2vw,16px) clamp(6px,0.8vw,10px); display: flex; flex-direction: column; gap: 2px; }
+	.college-card-name { font-size: clamp(10px,0.95vw,13px); font-weight: 700; color: var(--black); line-height: 1.35; letter-spacing: 0.02em; }
+	.college-card-tag { font-size: clamp(8px,0.75vw,10px); color: #888; font-weight: 400; letter-spacing: 0.03em; }
+	.college-card-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #bbb 0%, #888 100%); }
+	.college-card.register-card { background: #fffdf0; border: 1.5px dashed #c8a000; align-items: center; justify-content: center; min-height: 130px; gap: 4px; }
+	.college-card.register-card:hover { background: #fff8dc; border-color: var(--gold); }
+	.college-card.register-card::before { display: none; }
+	.register-plus { font-size: 38px; font-weight: 200; color: #c8a000; line-height: 1; font-family: 'Source Serif 4', serif; }
+	.register-label { font-family: 'Source Serif 4', serif; font-size: clamp(9px,0.85vw,11px); font-weight: 700; color: var(--black); text-align: center; padding: 0 12px; }
+	.no-results, .fetch-error { grid-column: 1/-1; text-align: center; padding: 40px; font-size: 14px; color: #666; font-weight: 600; }
+	.fetch-error { color: #cc2244; }
+	.retry-btn { display: inline-block; margin-top: 14px; padding: 8px 28px; background: var(--gold); border: 2px solid #c8a000; font-family: 'Source Serif 4', serif; font-size: clamp(13px, 1.2vw, 16px); font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.15s; letter-spacing: 0.05em; }
+	.retry-btn:hover { background: #ffd000; transform: translateY(-1px); }
+	.retry-btn:active { transform: scale(0.97); }
+	.retry-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+	.skeleton-card { border: 1.5px solid var(--border); display: flex; flex-direction: column; overflow: hidden; background: #f5f5f5; }
+	.skeleton-img { width: 100%; aspect-ratio: 16 / 9; background: linear-gradient(90deg, #e0e0e0 25%, #ebebeb 50%, #e0e0e0 75%); background-size: 200% 100%; animation: shimmer 1.3s infinite; }
+	.skeleton-body { padding: 10px 14px 14px; display: flex; flex-direction: column; gap: 7px; }
+	.skeleton-line { height: 10px; border-radius: 2px; background: linear-gradient(90deg, #e0e0e0 25%, #ebebeb 50%, #e0e0e0 75%); background-size: 200% 100%; animation: shimmer 1.3s infinite; }
+	.skeleton-line.short { width: 50%; }
+	@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+	.footer-bar { background: #2a2a2a; display: flex; justify-content: space-between; align-items: center; padding: clamp(10px,1.2vw,14px) clamp(20px,5vw,60px); font-size: clamp(10px,0.95vw,12.5px); color: #888; flex-wrap: wrap; gap: 8px; }
+	.footer-credit { display: flex; align-items: center; gap: 5px; color: #999; }
+	.footer-heart { color: var(--red-accent); font-size: 14px; animation: heartbeat 1.6s ease-in-out infinite; }
+	@keyframes heartbeat { 0%, 100% { transform: scale(1); } 14% { transform: scale(1.25); } 28% { transform: scale(1); } 42% { transform: scale(1.15); } 56% { transform: scale(1); } }
+	@media (max-width: 560px) { .footer-bar { flex-direction: column; text-align: center; } }
+	@media (max-width: 700px) { .main-content { padding: 16px; } .search-row { width: 100%; min-width: unset; } }
+</style>
 </head>
 <body>
-    <div class="page-wrapper">
-    	<div class="header-band">
-    		<div class="cs-title">
-                College Saathi
-            </div>
-    		<div class="cs-subtitle">
-                — Digital Multi College Ecosystem —
-            </div>
-    		<div class="cs-version" id="sysVersion">
-                version: v1.0
-            </div>
-    	</div>
-    	<div class="main-content">
-    		<div class="qualities-title">
-                ALL COLLEGES:
-            </div>
-    		<div class="qualities-gold-line"></div>
-    		<div class="search-row">
-    			<div class="search-icon-wrap">
-                    <!-- src: chatgpt -->
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-    					<circle cx="11" cy="11" r="8"/>
-    					<line x1="21" y1="21" x2="16.65" y2="16.65"/>
-    				</svg>
-    			</div>
-    			<input class="search-input" type="text" id="searchInput" placeholder="Search colleges..." oninput="onSearch(this.value)" autocomplete="off">
-    			<button class="search-clear" onclick="clearSearch()" title="Clear">
-                    &#x2715;
-                </button>
-    		</div>
-    		<div class="colleges-grid" id="collegesGrid"></div>
-    	</div>
-    	<footer>
-    		<div class="footer-bar">
-    			<span>
-                    &copy; 2026 College Saathi. All Rights Reserved.
-                </span>
-    			<span class="footer-credit">
-                    Made with <span class="footer-heart">&#9829;</span>By Aditya Shankar
-                </span>
-    		</div>
-    	</footer>
-    </div>
-    <script>
-        const m_github = "https://raw.githubusercontent.com/AdityaShankar990/GECJ_HACKATHON/refs/heads/main/g_meta_data.json";
-        let allColleges = [];
-        function buildSkeletons() {
-        	const grid = document.getElementById('collegesGrid');
-        	if (!grid)
-                return;
-        	const gridW = grid.offsetWidth || window.innerWidth - 80;
-        	const gap = Math.max(10, window.innerWidth * 0.015);
-        	const minCard = Math.max(160, Math.min(260, window.innerWidth * 0.20));
-        	const cols = Math.max(2, Math.floor((gridW + gap) / (minCard + gap)));
-        	const topBar = document.querySelector('.top-bar');
-        	const headerH = topBar ? topBar.offsetHeight : 38;
-        	const footerH = 44;
-        	const overheadH = clamp(14, 2, 28, true) + 15 + 3 + clamp(14, 2, 22, true) + 42 + clamp(14, 2, 22, true);
-        	const availH = window.innerHeight - headerH - footerH - overheadH;
-        	const cardH = (gridW / cols) * (9 / 16) + 50;
-        	const rows = Math.max(2, Math.ceil(availH / (cardH + gap)));
-        	const count = cols * rows;
-        	grid.innerHTML = Array.from({ length: count }, () => `
-        		<div class="skeleton-card">
-        			<div class="skeleton-img"></div>
-        			<div class="skeleton-body">
-        				<div class="skeleton-line"></div>
-        				<div class="skeleton-line short"></div>
-        			</div>
-        		</div>`).join('');
-        }
-        function clamp(min, vw, max, ret) {
-        	const v = (window.innerWidth * vw) / 100;
-        	return Math.min(max, Math.max(min, v));
-        }
-        async function loadData() {
-        	buildSkeletons();
-        	const controller = new AbortController();
-        	const timer = setTimeout(() => controller.abort(), 8000);
-        	try {
-        		const res = await fetch(m_github + "?t=" + Date.now(), {
-        			signal: controller.signal,
-        			cache: 'no-store'
-        		});
-        		clearTimeout(timer);
-        		if (!res.ok)
-        			throw new Error("HTTP " + res.status);
-        		const data = await res.json();
-        		applyData(data);
-        	} catch (err) {
-        		const msg = err.name === 'AbortError' ? 'Request timed out.' : err.message;
-        		showError(msg);
-        	}
-        }
-        function applyData(data) {
-        	allColleges = data.colleges || [];
-        	const v = data.meta?.version || "v1.0";
-        	const versionEl = document.getElementById('sysVersion');
-        	if (versionEl)
-        		versionEl.textContent = 'version: ' + v;
-        	renderGrid(allColleges);
-        }
-        function renderGrid(colleges) {
-        	const grid = document.getElementById('collegesGrid');
-        	if (!grid)
-                return;
-        	const searchInput = document.getElementById('searchInput');
-        	const isSearching = searchInput && searchInput.value.trim().length > 0;
-        	const registerHTML = `
-        		<div class="college-card register-card" onclick="window.location.href='college_registration_page.html'">
-        			<div class="register-plus">+</div>
-        			<div class="register-label">Register New College!!!</div>
-        		</div>`;
-        	if (!colleges.length) {
-        		grid.innerHTML = `
-        			${isSearching ? '<div class="no-results">No results found.</div>' : ''}
-        			${registerHTML}`;
-        		return;
-        	}
-        	let html = colleges.map(c => {
-        		const imgHTML = c.image
-        			? `<img src="${esc(c.image)}" alt="${esc(c.name)}" loading="lazy" 
-        				 onerror="this.outerHTML='<div class=\\'college-card-placeholder\\'></div>'">`
-        			: `<div class="college-card-placeholder"></div>`;
-        		return `
-        			<div class="college-card" onclick="openCollege(${allColleges.indexOf(c)})">
-        				<div class="college-card-img-wrap">${imgHTML}</div>
-        				<div class="college-card-body">
-        					<div class="college-card-name">${esc(c.name)}</div>
-        					<div class="college-card-tag">Click me to view</div>
-        				</div>
-        			</div>`;
-        	}).join('');
-        	grid.innerHTML = html + registerHTML;
-        }
-        function showError(msg) {
-        	const grid = document.getElementById('collegesGrid');
-        	if (grid) {
-        		grid.innerHTML = `
-        			<div class="fetch-error">
-        				 Failed to load colleges.<br><small>${esc(msg)}</small><br>
-        				 <button class="retry-btn" onclick="location.reload()">Retry</button>
-        			</div>`;
-        	}
-        }
-        function onSearch(val) { 
-        	filterColleges(val); 
-        }
-        function filterColleges(q) {
-        	const t = q.trim().toLowerCase();
-        	const filtered = t ? allColleges.filter(c => c.name.toLowerCase().includes(t)) : allColleges;
-        	renderGrid(filtered);
-        }
-        function clearSearch() {
-        	const inp = document.getElementById('searchInput');
-        	if (inp) {
-        		inp.value = ''; 
-        		inp.focus(); 
-        		filterColleges('');
-        	}
-        }
-        function openCollege(index) {
-        	window.location.href = 'college_profile_page.html?college=' + index;
-        }
-        function esc(s) {
-        	if (!s) return '';
-        	return String(s)
-        		.replace(/&/g, '&amp;')
-        		.replace(/"/g, '&quot;')
-        		.replace(/</g, '&lt;')
-        		.replace(/>/g, '&gt;')
-        		.replace(/'/g, '&#39;');
-        }
-        window.addEventListener('DOMContentLoaded', loadData);
-        let _resizeTimer;
-        window.addEventListener('resize', () => {
-        	clearTimeout(_resizeTimer);
-        	_resizeTimer = setTimeout(() => {
-        		if (document.querySelector('.skeleton-card')) {
-        			buildSkeletons();
-        		}
-        	}, 220);
-        });
-    </script>
+<div class="page-wrapper">
+	<div class="header-band">
+		<div class="cs-title">College Saathi</div>
+		<div class="cs-subtitle">— Digital Multi College Ecosystem —</div>
+		<div class="cs-version" id="sysVersion">version: v1.0</div>
+	</div>
+	<div class="main-content">
+		<div class="qualities-title">ALL COLLEGES:</div>
+		<div class="qualities-gold-line"></div>
+		<div class="search-row">
+			<div class="search-icon-wrap">
+				<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="11" cy="11" r="8"/>
+					<line x1="21" y1="21" x2="16.65" y2="16.65"/>
+				</svg>
+			</div>
+			<input
+				class="search-input" type="text" id="searchInput"
+				placeholder="Search colleges..."
+				oninput="onSearch(this.value)" autocomplete="off">
+			<button class="search-clear" onclick="clearSearch()" title="Clear">&#x2715;</button>
+		</div>
+		<div class="colleges-grid" id="collegesGrid"></div>
+	</div>
+	<footer>
+		<div class="footer-bar">
+			<span>&copy; 2026 College Saathi. All Rights Reserved.</span>
+			<span class="footer-credit">Made with <span class="footer-heart">&#9829;</span> By Aditya Shankar</span>
+		</div>
+	</footer>
+</div>
+<script>
+const RAW_JSON_URL = "https://raw.githubusercontent.com/InnovateX26/COLLEGE_SAATHI_x_TEAM/refs/heads/main/g_meta_data.json";
+let allColleges = [];
+function buildSkeletons() {
+	const grid = document.getElementById('collegesGrid');
+	if (!grid) return;
+	const gridW = grid.offsetWidth || window.innerWidth - 80;
+	const gap = Math.max(10, window.innerWidth * 0.015);
+	const minCard = Math.max(160, Math.min(260, window.innerWidth * 0.20));
+	const cols = Math.max(2, Math.floor((gridW + gap) / (minCard + gap)));
+	const topBar = document.querySelector('.top-bar');
+	const headerH = topBar ? topBar.offsetHeight : 38;
+	const footerH = 44;
+	const overheadH = clamp(14, 2, 28, true) + 15 + 3 + clamp(14, 2, 22, true) + 42 + clamp(14, 2, 22, true);
+	const availH = window.innerHeight - headerH - footerH - overheadH;
+	const cardH = (gridW / cols) * (9 / 16) + 50;
+	const rows = Math.max(2, Math.ceil(availH / (cardH + gap)));
+	const count = cols * rows;
+	grid.innerHTML = Array.from({ length: count }, () => `
+		<div class="skeleton-card">
+			<div class="skeleton-img"></div>
+			<div class="skeleton-body">
+				<div class="skeleton-line"></div>
+				<div class="skeleton-line short"></div>
+			</div>
+		</div>`).join('');
+}
+function clamp(min, vw, max, ret) {
+	const v = (window.innerWidth * vw) / 100;
+	return Math.min(max, Math.max(min, v));
+}
+async function loadData() {
+	buildSkeletons();
+	const controller = new AbortController();
+	const timer = setTimeout(() => controller.abort(), 8000);
+	try {
+		const res = await fetch(RAW_JSON_URL + "?t=" + Date.now(), {
+			signal: controller.signal,
+			cache: 'no-store'
+		});
+		clearTimeout(timer);
+		if (!res.ok) {
+			throw new Error("HTTP " + res.status);
+		}
+		const data = await res.json();
+		applyData(data);
+	} catch (err) {
+		const msg = err.name === 'AbortError' ? 'Request timed out.' : err.message;
+		showError(msg);
+	}
+}
+function applyData(data) {
+	allColleges = data.colleges || [];
+	const v = data.meta?.version || "v1.0";
+	const versionEl = document.getElementById('sysVersion');
+	if (versionEl) {
+		versionEl.textContent = 'version: ' + v;
+	}
+	renderGrid(allColleges);
+}
+function renderGrid(colleges) {
+	const grid = document.getElementById('collegesGrid');
+	if (!grid) return;
+	const searchInput = document.getElementById('searchInput');
+	const isSearching = searchInput && searchInput.value.trim().length > 0;
+	const registerHTML = `
+		<div class="college-card register-card" onclick="window.location.href='college_registration_page.html'">
+			<div class="register-plus">+</div>
+			<div class="register-label">Register New College!!!</div>
+		</div>`;
+	if (!colleges.length) {
+		grid.innerHTML = `
+			${isSearching ? '<div class="no-results">No results found.</div>' : ''}
+			${registerHTML}`;
+		return;
+	}
+	let html = colleges.map(c => {
+		const imgHTML = c.image
+			? `<img src="${esc(c.image)}" alt="${esc(c.name)}" loading="lazy" 
+				 onerror="this.outerHTML='<div class=\\'college-card-placeholder\\'></div>'">`
+			: `<div class="college-card-placeholder"></div>`;
+		return `
+			<div class="college-card" onclick="openCollege(${allColleges.indexOf(c)})">
+				<div class="college-card-img-wrap">${imgHTML}</div>
+				<div class="college-card-body">
+					<div class="college-card-name">${esc(c.name)}</div>
+					<div class="college-card-tag">Click me to view</div>
+				</div>
+			</div>`;
+	}).join('');
+	grid.innerHTML = html + registerHTML;
+}
+function showError(msg) {
+	const grid = document.getElementById('collegesGrid');
+	if (grid) {
+		grid.innerHTML = `
+			<div class="fetch-error">
+				 Failed to load colleges.<br><small>${esc(msg)}</small><br>
+				 <button class="retry-btn" onclick="location.reload()">Retry</button>
+			</div>`;
+	}
+}
+function onSearch(val) { 
+	filterColleges(val); 
+}
+function filterColleges(q) {
+	const t = q.trim().toLowerCase();
+	const filtered = t ? allColleges.filter(c => c.name.toLowerCase().includes(t)) : allColleges;
+	renderGrid(filtered);
+}
+function clearSearch() {
+	const inp = document.getElementById('searchInput');
+	if (inp) {
+		inp.value = ''; 
+		inp.focus(); 
+		filterColleges('');
+	}
+}
+function openCollege(index) {
+	window.location.href = 'college_profile_page.html?college=' + index;
+}
+function esc(s) {
+	if (!s) return '';
+	return String(s)
+		.replace(/&/g, '&amp;')
+		.replace(/"/g, '&quot;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/'/g, '&#39;');
+}
+window.addEventListener('DOMContentLoaded', loadData);
+let _resizeTimer;
+window.addEventListener('resize', () => {
+	clearTimeout(_resizeTimer);
+	_resizeTimer = setTimeout(() => {
+		if (document.querySelector('.skeleton-card')) {
+			buildSkeletons();
+		}
+	}, 220);
+});
+</script>
 </body>
 </html>
