@@ -12,7 +12,7 @@
     <title>College Saathi</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /*TODO*/
+
     </style>
 </head>
 <body>
@@ -64,7 +64,8 @@
         let allColleges = [];
         function buildSkeletons() {
         	const grid = document.getElementById('collegesGrid');
-        	if (!grid) return;
+        	if (!grid)
+                return;
         	const gridW = grid.offsetWidth || window.innerWidth - 80;
         	const gap = Math.max(10, window.innerWidth * 0.015);
         	const minCard = Math.max(160, Math.min(260, window.innerWidth * 0.20));
@@ -100,9 +101,8 @@
         			cache: 'no-store'
         		});
         		clearTimeout(timer);
-        		if (!res.ok) {
+        		if (!res.ok)
         			throw new Error("HTTP " + res.status);
-        		}
         		const data = await res.json();
         		applyData(data);
         	} catch (err) {
@@ -114,18 +114,18 @@
         	allColleges = data.colleges || [];
         	const v = data.meta?.version || "v1.0";
         	const versionEl = document.getElementById('sysVersion');
-        	if (versionEl) {
+        	if (versionEl)
         		versionEl.textContent = 'version: ' + v;
-        	}
         	renderGrid(allColleges);
         }
         function renderGrid(colleges) {
         	const grid = document.getElementById('collegesGrid');
-        	if (!grid) return;
+        	if (!grid)
+                return;
         	const searchInput = document.getElementById('searchInput');
         	const isSearching = searchInput && searchInput.value.trim().length > 0;
         	const registerHTML = `
-        		<div class="college-card register-card" onclick="window.location.href='3__register_new_college.html'">
+        		<div class="college-card register-card" onclick="window.location.href='college_registration_page.html'">
         			<div class="register-plus">+</div>
         			<div class="register-label">Register New College!!!</div>
         		</div>`;
@@ -178,7 +178,7 @@
         	}
         }
         function openCollege(index) {
-        	window.location.href = '4__college_profile.html?college=' + index;
+        	window.location.href = 'college_profile_page.html?college=' + index;
         }
         function esc(s) {
         	if (!s) return '';
@@ -202,4 +202,3 @@
     </script>
 </body>
 </html>
-    
