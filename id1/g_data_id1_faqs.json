@@ -19,6 +19,10 @@
     {
       "q": "How is student life at GEC Jamui?",
       "a": "How is student life at GEC Jamui?"
+    },
+    {
+      "q": "What courses are offered at GEC Jamui?",
+      "a": "The college offers B.Tech programs in Civil, Mechanical, Electrical, and Computer Science Engineering."
     }
   ]
 }
