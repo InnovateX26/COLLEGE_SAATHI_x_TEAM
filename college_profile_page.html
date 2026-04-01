@@ -455,7 +455,7 @@
 </div>
 <script>
 const META_RAW_URL = "https://raw.githubusercontent.com/InnovateX26/COLLEGE_SAATHI_x_TEAM/refs/heads/main/g_meta_data.json";
-const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/AdityaShankar990/m_data/refs/heads/main/";
+const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/InnovateX26/COLLEGE_SAATHI_x_TEAM/main/";
 const COLLEGE_INDEX = (() => {
 	const v = parseInt(new URLSearchParams(window.location.search).get('college'), 10);
 	return isNaN(v) ? 0 : v;
@@ -646,12 +646,12 @@ function sliderStartProgressBar() {
 		});
 	});
 }
-function sliderStartAuto() { 
+function sliderStartAuto() {
 	clearInterval(sliderAutoTimer); 
 	sliderAutoTimer = setInterval(sliderNext, SLIDER_INTERVAL); 
 	sliderStartProgressBar(); 
 }
-function sliderStopAuto() { 
+function sliderStopAuto() {
 	clearInterval(sliderAutoTimer); 
 	const p = document.getElementById('slideProgress');
 	if (p) { p.style.transition = 'none'; p.style.width = '0%'; }
@@ -660,7 +660,7 @@ function sliderResetAuto() {
 	sliderStopAuto();
 	sliderStartAuto();
 }
-function renderAbout(text) { 
+function renderAbout(text) {
 	const el = document.getElementById('aboutText');
 	if (el) el.textContent = text; 
 }
@@ -691,7 +691,7 @@ function renderMembers(members) {
 }
 const NOTICES_PER_PAGE = 5;
 let noticesDataItems = [], activePage = 1;
-function renderNotices(notices) { 
+function renderNotices(notices) {
 	noticesDataItems = [...notices].reverse(); 
 	activePage = 1; 
 	_drawNotices(1); 
@@ -759,7 +759,7 @@ function _goToNoticePage(page) {
 const ACHIEVE_PER_PAGE = 3;
 const ACHIEVE_PREV_LEN = 220;
 let achieveDataItems = [], activeAchievePage = 1;
-function renderAchievements(achievements) { 
+function renderAchievements(achievements) {
 	achieveDataItems = [...achievements].reverse(); 
 	activeAchievePage = 1; 
 	_drawAchievements(1); 
@@ -865,22 +865,22 @@ function handleProfileBtn() {
 	const college = new URLSearchParams(window.location.search).get('college') || '0';
 	if (!session) { window.location.href = `college_login_page.html?college=${college}`; return; }
 	const uid = (session.uid || '').toLowerCase();
-	if (uid.startsWith('admin')) window.location.href = `college_admin_page.html?college=${college}`;
-	else if (uid.startsWith('other')) window.location.href = `college_other_page.html?college=${college}`;
-	else window.location.href = `college_user_page.html?college=${college}`;
+	if (uid.startsWith('admin')) window.location.href = `college_admin_panel.html?college=${college}`;
+	else if (uid.startsWith('other')) window.location.href = `college_other_panel.html?college=${college}`;
+	else window.location.href = `college_student_panel.html?college=${college}`;
 }
 function openLightbox(src) {
 	const img = document.getElementById('lightboxImg');
 	const box = document.getElementById('lightbox');
 	if (img && box) { img.src = src; box.classList.add('open'); }
 }
-function closeLightbox() { 
+function closeLightbox() {
 	const img = document.getElementById('lightboxImg');
 	const box = document.getElementById('lightbox');
 	if (box) box.classList.remove('open'); 
 	if (img) img.src = ''; 
 }
-document.addEventListener('keydown', e => { 
+document.addEventListener('keydown', e => {
 	if (e.key === 'Escape') { closeLightbox(); } 
 });
 initPage();
