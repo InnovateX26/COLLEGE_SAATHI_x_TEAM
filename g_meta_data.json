@@ -1,13 +1,11 @@
 {
   "meta": {
     "version": "v1.0",
-    "tagline": "Connecting college communities and creating meaningful educational experiences that empower students to achieve their goals",
+    "tagline": "Digital Multi College Ecosystem",
     "changelogs": [
       "[+] Initial version of College Saathi v1.0 has been released",
       "[+] IIT, Lakhisarai registered on 29 Mar 2026"
     ]
   },
-  "colleges": [
-    {}
-  ]
+  "colleges": []
 }
