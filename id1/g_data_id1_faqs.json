@@ -3,6 +3,10 @@
     {
       "q": "Which university is GEC Jamui affiliated with?",
       "a": "GEC Jamui is affiliated with Aryabhatta Knowledge University, Patna."
+    },
+    {
+      "q": "What facilities are available on campus?",
+      "a": "The campus includes classrooms, laboratories, a library, hostel facilities, and open spaces for student activities."
     }
   ]
 }
