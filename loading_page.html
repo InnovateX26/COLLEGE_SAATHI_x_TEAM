@@ -1,1 +1,432 @@
-
+<!--
+    @EVENT: INNOVATE-X
+    @PROJECT: COLLEGE SAATHI
+    @AUTHOR: COLLEGE SAAHTI X TEAM
+    @DATE: 01-04-2026
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Saathi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #F5C200;
+            --black: #1a1a1a;
+            --white: #ffffff;
+            --error: #d93025;
+        }
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #loadingScreen {
+            min-height: 100vh;
+            width: 100%;
+            background: var(--gold);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px 60px;
+            gap: 0;
+        }
+        .cs-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(32px, 5vw, 60px);
+            font-weight: 900;
+            color: var(--black);
+            letter-spacing: 0.04em;
+            text-align: center;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .cs-subtitle {
+            font-family: 'Source Serif 4', serif;
+            font-size: clamp(11px, 1.3vw, 16px);
+            font-weight: 600;
+            color: var(--black);
+            letter-spacing: 0.18em;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+        .cs-version {
+            font-family: 'Source Serif 4', serif;
+            font-size: clamp(11px, 1.1vw, 13px);
+            color: var(--black);
+            text-decoration: underline;
+            text-align: center;
+            margin-bottom: 26px;
+            opacity: 0.75;
+        }
+        .quote-block {
+            width: min(90vw, 700px);
+            min-height: 20vh;
+            padding: clamp(12px, 2vw, 24px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(8px, 2vw, 16px);
+            text-align: center;
+        }
+        .quote-mark-open,
+        .quote-mark-close {
+            font-size: clamp(40px, 8vw, 80px);
+            line-height: 1;
+        }
+        .quote-mark-open {
+            align-self: flex-start;
+            margin-top: 6px;
+        }
+        .quote-mark-close {
+            align-self: flex-end;
+            margin-bottom: -20px;
+        }
+        .quote-text {
+            font-size: clamp(14px, 2vw, 20px);
+            line-height: 1.6;
+            max-width: 80%;
+        }
+        .changelog-box {
+            width: 65vw;
+            height: 25vh;
+            border: 2px solid var(--black);
+            margin-bottom: 28px;
+            overflow: hidden;
+        }
+        .changelog-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--black);
+            letter-spacing: 0.06em;
+            padding: 6px 12px 5px;
+            border-bottom: 1.5px solid rgba(0, 0, 0, 0.18);
+            display: block;
+            text-transform: lowercase;
+        }
+        .changelog-inner {
+            padding: 8px 14px 10px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .changelog-line {
+            font-size: clamp(10px, 1vw, 12px);
+            color: var(--black);
+            line-height: 1.75;
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: opacity 0.32s, transform 0.32s;
+        }
+        .changelog-line.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .changelog-cursor {
+            display: inline-block;
+            width: 7px;
+            height: 12px;
+            background: var(--black);
+            vertical-align: middle;
+            animation: blink 0.7s step-end infinite;
+            margin-left: 2px;
+        }
+        .changelog-inner::-webkit-scrollbar {
+            width: 10px;
+        }
+        .changelog-inner::-webkit-scrollbar-track {
+            background: var(--gold);
+        }
+        .changelog-inner::-webkit-scrollbar-thumb {
+            background: var(--black);
+            border-radius: 2px;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .progress-ring-wrap {
+            position: relative;
+            width: 88px;
+            height: 88px;
+            margin-bottom: 16px;
+        }
+        .progress-ring-wrap svg {
+            transform: rotate(-90deg);
+        }
+        .ring-bg {
+            fill: none;
+            stroke: rgba(0, 0, 0, 0.15);
+            stroke-width: 6;
+        }
+        .ring-fill {
+            fill: none;
+            stroke: var(--black);
+            stroke-width: 6;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.4s ease;
+        }
+        .progress-pct {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--black);
+        }
+        .status-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .fetching-label {
+            font-family: 'Source Serif 4', serif;
+            font-size: clamp(12px, 1.2vw, 15px);
+            color: var(--black);
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-align: center;
+        }
+        .fetching-label.error-text {
+            color: var(--error);
+        }
+        .next-btn {
+            display: none;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.3s ease;
+            padding: 10px 18px;
+            border: 2px solid var(--black);
+            border-radius: 99px;
+            background: transparent;
+            color: var(--black);
+            text-decoration: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .next-btn:hover {
+            opacity: 0.85;
+            transform: translateX(3px);
+        }
+        .next-btn svg {
+            flex-shrink: 0;
+        }
+        .next-btn.show {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingScreen">
+        <div class="cs-title">
+            College Saathi
+        </div>
+        <div class="cs-subtitle">
+            — DIGITAL MULTI COLLEGE ECOSYSTEM —
+        </div>
+        <div class="cs-version" id="sysVersion">
+            version: v1.0
+        </div>
+        <div class="quote-block">
+            <span class="quote-mark-open">
+                &ldquo;
+            </span>
+            <p class="quote-text" id="loadingTagline">
+                Connecting college communities and creating meaningful educational experience that empower students to achieve their goals
+            </p>
+            <span class="quote-mark-close">
+                &rdquo;
+            </span>
+        </div>
+        <div class="changelog-box">
+            <span class="changelog-label">
+                changelogs:
+            </span>
+            <div class="changelog-inner" id="changelogInner">
+                <span class="changelog-cursor" id="changelogCursor">
+                </span>
+            </div>
+        </div>
+        <div class="progress-ring-wrap">
+            <!-- src: chatgpt -->
+            <svg width="88" height="88" viewBox="0 0 88 88">
+                <circle class="ring-bg"	cx="44" cy="44" r="38"/>
+                <circle class="ring-fill" id="ringFill" cx="44" cy="44" r="38" stroke-dasharray="238.76" stroke-dashoffset="238.76"/>
+            </svg>
+            <div class="progress-pct" id="progressPct">
+                0%
+            </div>
+        </div>
+        <div class="status-area">
+            <span class="fetching-label" id="fetchingLabel">
+                Please wait, fetching is in progress...
+            </span>
+            <a class="next-btn" id="nextBtn" href="menulist_page.html">
+                <!-- src: chatgpt -->
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                    <polyline points="12 5 19 12 12 19"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+    <script>
+    const m_github = "https://raw.githubusercontent.com/AdityaShankar990/GECJ_HACKATHON/refs/heads/main/g_meta_data.json";
+    const m_circum = 238.76;
+    let progressVal = 0;
+    let progressTarget = 0;
+    let progressRAF = null;
+    function setProgress(pct) {
+        pct = Math.min(100, Math.max(0, pct));
+        const offset = m_circum - (pct / 100) * m_circum;
+        const ringFill = document.getElementById('ringFill');
+        const progressPct = document.getElementById('progressPct');
+        if (ringFill)
+            ringFill.style.strokeDashoffset = offset;
+        if (progressPct)
+            progressPct.textContent = Math.round(pct) + '%';
+    }
+    function animateProgress() {
+        if (progressVal < progressTarget) {
+            progressVal = Math.min(progressTarget, progressVal + 0.8);
+            setProgress(progressVal);
+        }
+        if (progressVal < 100)
+            progressRAF = requestAnimationFrame(animateProgress);
+        else
+            progressRAF = null;
+    }
+    function setProgressTarget(t) {
+        progressTarget = t;
+        if (!progressRAF)
+            progressRAF = requestAnimationFrame(animateProgress);
+    }
+    let clLines = [];
+    let clIdx = 0;
+    let clCharIdx = 0;
+    let clEl = null;
+    function startChangelogs(lines) {
+        clLines = lines;
+        clIdx = 0;
+        clCharIdx = 0;
+        clEl = null;
+        const inner = document.getElementById('changelogInner');
+        if (inner) {
+            inner.innerHTML = '<span class="changelog-cursor" id="changelogCursor"></span>';
+            typeNext();
+        }
+    }
+    function typeNext() {
+        if (clIdx >= clLines.length) return;
+        const inner = document.getElementById('changelogInner');
+        const cursor = document.getElementById('changelogCursor');
+        if (clCharIdx === 0) {
+            clEl = document.createElement('div');
+            clEl.className = 'changelog-line';
+            if (inner && cursor)
+                inner.insertBefore(clEl, cursor);
+            requestAnimationFrame(() => {
+                if (clEl) clEl.classList.add('visible');
+            });
+        }
+        const line = clLines[clIdx];
+        if (clCharIdx < line.length) {
+            if (clEl)
+                clEl.textContent = line.substring(0, clCharIdx + 1);
+            clCharIdx++;
+            setTimeout(typeNext, 18);
+        } else {
+            clIdx++;
+            clCharIdx = 0;
+            clEl = null;
+            if (inner)
+                inner.scrollTop = inner.scrollHeight;
+            if (clIdx < clLines.length)
+                setTimeout(typeNext, 260);
+        }
+    }
+    function applyMeta(data) {
+        const v = data.meta?.version || "v1.0";
+        const tl = data.meta?.tagline || "";
+        const sysVersion = document.getElementById('sysVersion');
+        const loadingTagline = document.getElementById('loadingTagline');
+        if (sysVersion)
+            sysVersion.textContent = "version: " + v;
+        if (tl && loadingTagline)
+            loadingTagline.textContent = tl;
+        try {
+            localStorage.setItem('cs_colleges', JSON.stringify(data.colleges || []));
+            localStorage.setItem('cs_version', v);
+        } catch (e) {
+            console.warn("Storage failed", e);
+        }
+    }
+    function markDone() {
+        const label = document.getElementById('fetchingLabel');
+        const nextBtn = document.getElementById('nextBtn');
+        if (label)
+            label.textContent = 'Fetching completed';
+        if (nextBtn)
+            nextBtn.classList.add('show');
+    }
+    async function fetchData() {
+        const label = document.getElementById('fetchingLabel');
+        setProgressTarget(15);
+        try {
+            setProgressTarget(30);
+            const res = await fetch(m_github + "?t=" + Date.now());
+            setProgressTarget(65);
+            if (!res.ok)
+                throw new Error("HTTP " + res.status);
+            const data = await res.json();
+            setProgressTarget(90);
+            applyMeta(data);
+            startChangelogs(data.meta?.changelogs || []);
+            setTimeout(() => {
+                setProgressTarget(100);
+                setTimeout(markDone, 500);
+            }, 350);
+        } catch (err) {
+            console.error("Fetch failed:", err);
+            if (label) {
+                if (!navigator.onLine || err.name === 'TypeError')
+                    label.textContent = "Network issue, please check your connection!!!";
+                else
+                    label.textContent = "Error: " + err.message;
+                label.classList.add('error-text');
+            }
+            progressTarget = progressVal;
+            if (progressRAF) {
+                cancelAnimationFrame(progressRAF);
+                progressRAF = null;
+            }
+        }
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+        setProgress(0);
+        fetchData();
+    });
+    </script>
+</body>
+</html>
