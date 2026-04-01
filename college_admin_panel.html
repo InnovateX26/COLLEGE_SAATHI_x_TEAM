@@ -1,0 +1,956 @@
+<!--
+    @EVENT: INNOVATE-X
+    @PROJECT: COLLEGE SAATHI
+    @AUTHOR: COLLEGE SAAHTI X TEAM
+    @DATE: 01-04-2026
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College Saathi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@300;400;600&display=swap">
+<style>
+	:root { --gold: #f5c200; --black: #1a1a1a; --white: #ffffff; --red-accent: #cc2244; --text-body: #222222; --border: #e5e5e5; }
+	*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+	html, body { width: 100%; height: 100vh; font-family: "Source Serif 4", Georgia, serif; background: #e8e8e8; color: var(--text-body); overflow: hidden; }
+	.page-wrapper { width: 100vw; height: 100vh; display: flex; flex-direction: column; background: var(--white); box-shadow: 0 0 60px rgba(0, 0, 0, 0.22); position: relative; }
+	.admin-topbar { background: var(--gold); padding: 0 clamp(16px, 2.5vw, 28px); height: 38px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; border-bottom: 1.5px solid rgba(0, 0, 0, 0.1); }
+	.admin-topbar-title { font-family: "Playfair Display", serif; font-size: clamp(14px, 1.6vw, 20px); font-weight: 700; letter-spacing: 0.04em; color: var(--black); }
+	.admin-profile { display: flex; align-items: center; gap: 10px; font-size: clamp(11px, 1vw, 13px); font-weight: 600; color: var(--black); }
+	.admin-profile img { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--black); object-fit: cover; background: #fff; }
+	.admin-main { display: flex; flex: 1; overflow: hidden; }
+	.sidebar { width: 220px; background: #f9f9f9; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 12px 0; overflow-y: auto; flex-shrink: 0; }
+	.nav-label { font-size: 9px; font-weight: 800; color: #999; padding: 10px 20px 4px; text-transform: uppercase; letter-spacing: 0.12em; }
+	.nav-item { padding: 9px 20px; font-size: 11px; font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s; border-left: 3px solid transparent; text-transform: uppercase; letter-spacing: 0.05em; color: #555; }
+	.nav-item:hover { background: #eee; color: var(--black); }
+	.nav-item.active { background: #fff; border-left-color: var(--gold); color: var(--black); font-weight: 700; }
+	.nav-separator { height: 1px; background: #e0e0e0; margin: 8px 16px; flex-shrink: 0; }
+	.logout-btn { margin: auto 10px 2px !important; border: 2px solid var(--red-accent) !important; color: var(--red-accent) !important; text-align: center; border-radius: 3px; font-weight: 800 !important; height: 36px; line-height: 32px; padding: 0 !important; letter-spacing: 0.06em; }
+	.logout-btn:hover { background: var(--red-accent) !important; color: #fff !important; }
+	.content-area { flex: 1; overflow-y: auto; padding: clamp(18px, 2.5vw, 36px); position: relative; }
+	.panel-header { margin-bottom: 22px; }
+	.panel-title { font-family: "Playfair Display", serif; font-size: clamp(18px, 2vw, 26px); font-weight: 700; padding-bottom: 5px; border-bottom: 2px solid var(--gold); display: inline-block; }
+	.form-group { margin-bottom: 14px; max-width: 780px; display: flex; flex-direction: column; gap: 6px; }
+	.form-label { display: block; font-size: clamp(10px, 0.9vw, 12px); font-weight: 700; text-transform: uppercase; color: #555; letter-spacing: 0.05em; }
+	.rc-field-row { display: flex; align-items: stretch; max-width: 780px; margin-bottom: 14px; border: 2px solid var(--black); }
+	.rc-field-label { background: #f9f9f9; border-right: 2px solid var(--black); padding: 11px 18px; font-family: "Source Serif 4", serif; font-size: clamp(12px, 1.1vw, 14px); font-weight: 600; color: var(--black); white-space: nowrap; display: flex; align-items: center; min-width: 160px; }
+	.form-input { width: 100%; padding: 11px 14px; border: 2px solid var(--black); font-family: "Source Serif 4", serif; font-size: clamp(12px, 1.1vw, 14px); color: var(--black); outline: none; background: #fff; }
+	.form-input:focus { background: #fffdf0; }
+	.rc-field-row .form-input { border: none; padding: 11px 14px; flex: 1; }
+	textarea.form-input { resize: vertical; min-height: 80px; }
+	.btn-save { background: var(--gold); border: 2px solid #c8a000; color: var(--black); font-family: "Source Serif 4", serif; font-size: clamp(12px, 1.1vw, 14px); font-weight: 700; padding: 10px 36px; cursor: pointer; transition: background 0.2s, transform 0.15s; letter-spacing: 0.04em; margin-top: 8px; display: inline-block; }
+	.btn-save:hover { background: #ffd000; transform: translateY(-1px); }
+	.btn-save:active { transform: scale(0.97); }
+	.btn-save:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+	.btn-danger { background: var(--red-accent); color: white; border: none; padding: 5px 11px; cursor: pointer; font-size: 11px; font-weight: 700; border-radius: 2px; font-family: "Source Serif 4", serif; }
+	.btn-danger:hover { background: #a81c38; }
+	@keyframes shimmer { 0% { background-position: -600px 0; } 100% { background-position: 600px 0; } }
+	.sk-loader { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; padding: clamp(18px, 2.5vw, 36px); z-index: 1000; display: flex; flex-direction: column; gap: 14px; }
+	.sk-box { background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%); background-size: 600px 100%; animation: shimmer 1.4s linear infinite; border-radius: 3px; }
+	.rc-photo-preview-wrap { max-width: 780px; margin: 10px 0 8px; display: none; border: 2px solid var(--black); position: relative; background: #111; height: 300px; overflow: hidden; }
+	.rc-photo-preview-wrap.show { display: block; }
+	.rc-photo-preview { width: 100%; height: 100%; object-fit: contain; }
+	.crop-mask { position: absolute; background: rgba(0, 0, 0, 0.65); pointer-events: none; z-index: 4; }
+	.crop-selection { position: absolute; border: 2px solid var(--gold); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5); z-index: 10; cursor: move; background: transparent; }
+	.crop-handle { position: absolute; width: 10px; height: 10px; background: var(--gold); border: 1.5px solid #fff; z-index: 11; }
+	.crop-handle.nw { top: -5px; left: -5px; cursor: nw-resize; }
+	.crop-handle.ne { top: -5px; right: -5px; cursor: ne-resize; }
+	.crop-handle.sw { bottom: -5px; left: -5px; cursor: sw-resize; }
+	.crop-handle.se { bottom: -5px; right: -5px; cursor: se-resize; }
+	.crop-handle.n { top: -5px; left: 50%; transform: translateX(-50%); cursor: n-resize; }
+	.crop-handle.s { bottom: -5px; left: 50%; transform: translateX(-50%); cursor: s-resize; }
+	.crop-handle.e { top: 50%; right: -5px; transform: translateY(-50%); cursor: e-resize; }
+	.crop-handle.w { top: 50%; left: -5px; transform: translateY(-50%); cursor: w-resize; }
+	.crop-reset-bar { max-width: 780px; display: flex; justify-content: flex-end; gap: 10px; align-items: center; margin: 4px 0 14px; }
+	.crop-reset-btn { font-size: 11px; font-weight: 600; color: #555; background: none; border: 1.5px solid #ccc; padding: 4px 14px; cursor: pointer; font-family: "Source Serif 4", serif; transition: color 0.15s, border-color 0.15s; }
+	.crop-reset-btn:hover { color: var(--black); border-color: #888; }
+	#cropConfirmBtn { background: var(--gold); color: var(--black); border-color: #c8a000; font-weight: 700; display: none; }
+	.current-img-box { width: 130px; aspect-ratio: 16/9; border: 1.5px solid var(--border); margin-bottom: 12px; border-radius: 3px; overflow: hidden; background: #f4f4f4; }
+	.current-img-box img { width: 100%; height: 100%; object-fit: cover; }
+	.current-img-box.circle { border-radius: 50%; width: 56px; aspect-ratio: 1/1; }
+	.drop-zone { border: 2px dashed #c0a800; background: #fffdf0; border-radius: 3px; padding: 20px; text-align: center; cursor: pointer; max-width: 780px; font-family: "Source Serif 4", serif; font-size: clamp(12px, 1.1vw, 14px); font-weight: 700; color: var(--black); transition: background 0.2s, border-color 0.2s; }
+	.drop-zone:hover { background: #fff8d6; border-color: var(--gold); }
+	.data-table { width: 100%; border-collapse: collapse; margin-top: 16px; max-width: 780px; }
+	.data-table th { text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--gold); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: #555; }
+	.data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: clamp(12px, 1.1vw, 14px); }
+	.day-card { background: #fff; border: 2px solid var(--black); padding: 14px; margin-bottom: 14px; max-width: 780px; }
+	.day-header { font-weight: 700; font-size: 13px; text-transform: uppercase; border-bottom: 1.5px solid var(--gold); padding-bottom: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+	.class-row { display: grid; grid-template-columns: 130px 1fr 36px; gap: 8px; margin-bottom: 7px; }
+	.btn-add-mini { background: var(--black); color: #fff; border: none; padding: 3px 10px; font-size: 10px; font-weight: 700; cursor: pointer; border-radius: 2px; font-family: "Source Serif 4", serif; }
+	.gallery-preview-wrap { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; background: #f4f4f4; padding: 10px; border-radius: 3px; max-width: 780px; min-height: 44px; }
+	.gallery-thumb { width: 68px; height: 44px; position: relative; border: 1px solid var(--black); }
+	.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+	.gallery-thumb .rem { position: absolute; top: -5px; right: -5px; background: var(--red-accent); color: white; border-radius: 50%; width: 15px; height: 15px; font-size: 10px; text-align: center; cursor: pointer; line-height: 15px; font-weight: 900; }
+	.footer-bar { background: #2a2a2a; display: flex; justify-content: space-between; align-items: center; padding: clamp(10px, 1.2vw, 14px) clamp(20px, 5vw, 60px); font-size: clamp(10px, 0.95vw, 12.5px); color: #888; flex-wrap: wrap; gap: 8px; }
+	.footer-credit { display: flex; align-items: center; gap: 5px; color: #999; }
+	.footer-heart { color: var(--red-accent); font-size: 14px; animation: heartbeat 1.6s ease-in-out infinite; }
+	@keyframes heartbeat { 0%, 100% { transform: scale(1); } 14% { transform: scale(1.25); } 28% { transform: scale(1); } 42% { transform: scale(1.15); } 56% { transform: scale(1); } }
+	@media (max-width: 560px) { .footer-bar { flex-direction: column; text-align: center; } }
+	.section-box { background: #f9f9f9; padding: 18px; border: 1px solid #ddd; display: flex; flex-direction: column; gap: 10px; max-width: 780px; margin-bottom: 6px; }
+	.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+	.inline-add { display: flex; gap: 8px; align-items: flex-start; }
+	.inline-add .btn-save { margin-top: 0; }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+	<div class="admin-topbar">
+		<span class="admin-topbar-title">ADMIN PANEL</span>
+		<div class="admin-profile">
+			<span id="adminGreet">Hi, ...</span>
+			<img id="adminLogoHead" src="" alt="">
+		</div>
+	</div>
+	<div class="admin-main">
+		<div class="sidebar">
+			<div class="nav-label">General</div>
+			<div class="nav-item active" onclick="switchTab('profile', this)">Profile</div>
+			<div class="nav-item" onclick="switchTab('topbar', this)">Topbar Settings</div>
+			<div class="nav-separator"></div>
+			<div class="nav-label">Home</div>
+			<div class="nav-item" onclick="switchTab('slider', this)">Slider</div>
+			<div class="nav-item" onclick="switchTab('about', this)">About Section</div>
+			<div class="nav-item" onclick="switchTab('qualities', this)">Qualities</div>
+			<div class="nav-separator"></div>
+			<div class="nav-label">Records</div>
+			<div class="nav-item" onclick="switchTab('members', this)">Staff Members</div>
+			<div class="nav-item" onclick="switchTab('notices', this)">Notices</div>
+			<div class="nav-item" onclick="switchTab('achievements', this)">Achievements</div>
+			<div class="nav-item" onclick="switchTab('faqs', this)">FAQs</div>
+			<div class="nav-item" onclick="switchTab('footer', this)">Footer Info</div>
+			<div class="nav-separator"></div>
+			<div class="nav-label">Administration</div>
+			<div class="nav-item" onclick="switchTab('academic', this)">Academic Planner</div>
+			<div class="nav-item" onclick="switchTab('subadmin', this)">Manage Sub-Admins</div>
+			<div class="nav-separator"></div>
+			<div class="nav-item logout-btn" onclick="doLogout()">LOGOUT</div>
+		</div>
+		<div class="content-area">
+			<div id="skLayer" class="sk-loader">
+				<div class="sk-box" style="width:220px; height:28px;"></div>
+				<div class="sk-box" style="width:100%; height:3px;"></div>
+				<div class="sk-box" style="width:100%; height:120px;"></div>
+				<div class="sk-box" style="width:100%; height:120px;"></div>
+				<div class="sk-box" style="width:140px; height:38px;"></div>
+			</div>
+			<div id="mainContent" style="visibility:hidden;">
+				<div id="tab-profile" class="tab-content">
+					<div class="panel-header"><h2 class="panel-title">College Profile</h2></div>
+					<div class="rc-field-row">
+						<span class="rc-field-label">Display Name</span>
+						<input type="text" id="colDisplayName" class="form-input" placeholder="College name">
+					</div>
+					<div class="form-group">
+						<label class="form-label">Current Master Image</label>
+						<div class="current-img-box"><img id="previewMaster" src=""></div>
+						<div class="drop-zone" onclick="triggerInput('master')">+ Change Master Photo</div>
+					</div>
+					<div id="cropTargetProfile"></div>
+					<button class="btn-save" onclick="saveMaster()">Update Profile</button>
+				</div>
+				<div id="tab-academic" class="tab-content" style="display:none;">
+					<div class="panel-header"><h2 class="panel-title">Academic Planner</h2></div>
+					<div class="section-box" style="background:#fffdf0; border-color: var(--gold);">
+						<div class="two-col" style="max-width:780px;">
+							<div>
+								<label class="form-label">Batch / Year</label>
+								<select id="acadBatch" class="form-input" onchange="loadBatchSchedule()">
+								</select>
+							</div>
+							<div>
+								<label class="form-label">Branch</label>
+								<select id="acadBranch" class="form-input" onchange="loadBatchSchedule()">
+									<option value="Civil Engineering">Civil Engineering</option>
+									<option value="Mechanical Engineering">Mechanical Engineering</option>
+									<option value="Electrical Engineering">Electrical Engineering</option>
+									<option value="CS (Data Science)">CS (Data Science)</option>
+									<option value="CS (AI/ML)">CS (AI/ML)</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div id="scheduleGrid"></div>
+					<button class="btn-save" style="width:100%;max-width:780px;" onclick="saveFullSchedule()">Save Weekly Schedule</button>
+					<div class="nav-separator" style="margin:32px 0; max-width:780px;"></div>
+					<div class="panel-header"><h2 class="panel-title" style="font-size:18px;">Holidays</h2></div>
+					<div class="section-box">
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Name</span>
+							<input id="holName" class="form-input" placeholder="Holiday Name">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Date</span>
+							<input id="holDate" class="form-input" placeholder="e.g. 15 Aug 2026">
+						</div>
+						<button class="btn-save" onclick="addHoliday()" style="margin-top:4px;">Add Holiday</button>
+					</div>
+					<table class="data-table">
+						<thead><tr><th>Holiday</th><th>Date</th><th>Action</th></tr></thead>
+						<tbody id="holTableBody"></tbody>
+					</table>
+				</div>
+				<div id="tab-subadmin" class="tab-content" style="display:none;">
+					<div class="panel-header"><h2 class="panel-title">Manage Sub-Admins</h2></div>
+					<div class="section-box">
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Full Name</span>
+							<input type="text" id="subName" class="form-input">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Department</span>
+							<input type="text" id="subDept" class="form-input">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Role</span>
+							<input type="text" id="subRole" class="form-input">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Login ID</span>
+							<input type="text" id="subId" class="form-input">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Password</span>
+							<input type="password" id="subPwd" class="form-input">
+						</div>
+						<button class="btn-save" onclick="createSubAdmin()">Create Sub-Admin</button>
+					</div>
+					<table class="data-table">
+						<thead><tr><th>Name</th><th>ID</th><th>Role</th><th>Action</th></tr></thead>
+						<tbody id="subTableBody"></tbody>
+					</table>
+				</div>
+				<div id="tab-topbar" class="tab-content" style="display:none;">
+					<div class="panel-header"><h2 class="panel-title">Topbar Settings</h2></div>
+					<div class="rc-field-row">
+						<span class="rc-field-label">College Name</span>
+						<input id="topbarTitle" class="form-input" placeholder="Displayed in topbar">
+					</div>
+					<div class="form-group">
+						<label class="form-label">Current Logo</label>
+						<div class="current-img-box circle"><img id="previewLogo" src=""></div>
+						<div class="drop-zone" onclick="triggerInput('topbar')">+ Change Logo</div>
+					</div>
+					<div id="cropTargetTopbar"></div>
+					<button class="btn-save" onclick="saveTopbar()">Update Topbar</button>
+				</div>
+				<div id="tab-slider" class="tab-content" style="display:none;">
+					<div class="panel-header"><h2 class="panel-title">Slider</h2></div>
+					<div class="section-box">
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Caption</span>
+							<input id="slideCap" class="form-input" placeholder="Slide caption">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Subtitle</span>
+							<input id="slideSub" class="form-input" placeholder="Slide subtitle">
+						</div>
+						<div class="drop-zone" onclick="triggerInput('slider')">+ Select Slide Image</div>
+						<div id="cropTargetSlider"></div>
+						<button class="btn-save" onclick="addSlide()">Add Slide</button>
+					</div>
+					<table class="data-table">
+						<thead><tr><th>Image</th><th>Caption</th><th>Action</th></tr></thead>
+						<tbody id="sliderTableBody"></tbody>
+					</table>
+				</div>
+				<div id="tab-about" class="tab-content" style="display:none;">
+					<div class="panel-header"><h2 class="panel-title">About Section</h2></div>
+					<div class="form-group">
+						<label class="form-label">College Bio</label>
+						<textarea id="aboutText" class="form-input" style="height:420px;"></textarea>
+					</div>
+					<button class="btn-save" onclick="saveAbout()">Update About</button>
+				</div>
+				<div id="tab-qualities" class="tab-content" style="display:none;">
+					<div class="panel-header"><h2 class="panel-title">Qualities</h2></div>
+					<div class="section-box">
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Label</span>
+							<input id="qualLabel" class="form-input" placeholder="Quality label">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Subtitle</span>
+							<input id="qualSub" class="form-input" placeholder="Short description">
+						</div>
+						<div class="drop-zone" onclick="triggerInput('qualities')">+ Select Icon Image</div>
+						<div id="cropTargetQualities"></div>
+						<button class="btn-save" onclick="addQuality()">Add Quality</button>
+					</div>
+					<table class="data-table">
+						<thead><tr><th>Icon</th><th>Label</th><th>Action</th></tr></thead>
+						<tbody id="qualTableBody"></tbody>
+					</table>
+				</div>
+				<div id="tab-members" class="tab-content" style="display:none;">
+					<div class="panel-header"><h2 class="panel-title">Staff Members</h2></div>
+					<div class="section-box">
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Name</span>
+							<input id="memName" class="form-input" placeholder="Full name">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Role</span>
+							<input id="memRole" class="form-input" placeholder="e.g. Principal">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Department</span>
+							<input id="memDept" class="form-input" placeholder="e.g. Computer Science">
+						</div>
+						<div class="drop-zone" onclick="triggerInput('members')">+ Select Photo</div>
+						<div id="cropTargetMembers"></div>
+						<button class="btn-save" onclick="addMember()">Add Member</button>
+					</div>
+					<table class="data-table">
+						<thead><tr><th>Photo</th><th>Name</th><th>Role</th><th>Action</th></tr></thead>
+						<tbody id="memTableBody"></tbody>
+					</table>
+				</div>
+				<div id="tab-notices" class="tab-content" style="display:none;">
+					<div class="panel-header"><h2 class="panel-title">Notices</h2></div>
+					<div class="section-box">
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Title</span>
+							<input id="notTitle" class="form-input" placeholder="Notice title">
+						</div>
+						<textarea id="notDetail" class="form-input" placeholder="Full description" style="max-width:780px;"></textarea>
+						<div class="two-col" style="max-width:780px;">
+							<input id="notRefName" class="form-input" placeholder="Reference Name">
+							<input id="notRefLink" class="form-input" placeholder="Reference URL">
+						</div>
+						<div class="two-col" style="max-width:780px;">
+							<input id="notPdfName" class="form-input" placeholder="PDF Name">
+							<input id="notPdfLink" class="form-input" placeholder="PDF URL">
+						</div>
+						<button class="btn-save" onclick="addNotice()">Post Notice</button>
+					</div>
+					<table class="data-table">
+						<thead><tr><th>Date</th><th>Title</th><th>Action</th></tr></thead>
+						<tbody id="notTableBody"></tbody>
+					</table>
+				</div>
+				<div id="tab-achievements" class="tab-content" style="display:none;">
+					<div class="panel-header"><h2 class="panel-title">Achievements</h2></div>
+					<div class="section-box">
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Title</span>
+							<input id="achTitle" class="form-input" placeholder="Achievement title">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Category</span>
+							<input id="achCat" class="form-input" placeholder="e.g. Sports, Academic">
+						</div>
+						<textarea id="achShort" class="form-input" placeholder="Short description" style="max-width:780px;"></textarea>
+						<textarea id="achLong" class="form-input" placeholder="Full description" style="max-width:780px;"></textarea>
+						<div class="drop-zone" onclick="triggerInput('achieve_gal')">+ Add Gallery Image</div>
+						<div id="cropTargetAchieveGal"></div>
+						<div id="achGalleryPreview" class="gallery-preview-wrap" style="display:none;"></div>
+						<div class="drop-zone" onclick="triggerInput('achieve')">+ Select Thumbnail</div>
+						<div id="cropTargetAchieve"></div>
+						<button class="btn-save" onclick="addAchievement()">Post Achievement</button>
+					</div>
+					<table class="data-table">
+						<thead><tr><th>Image</th><th>Title</th><th>Action</th></tr></thead>
+						<tbody id="achTableBody"></tbody>
+					</table>
+				</div>
+				<div id="tab-faqs" class="tab-content" style="display:none;">
+					<div class="panel-header"><h2 class="panel-title">FAQs</h2></div>
+					<div class="section-box">
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Question</span>
+							<input id="faqQ" class="form-input" placeholder="Frequently asked question">
+						</div>
+						<textarea id="faqA" class="form-input" placeholder="Answer" style="max-width:780px;"></textarea>
+						<button class="btn-save" onclick="addFaq()">Add FAQ</button>
+					</div>
+					<table class="data-table">
+						<thead><tr><th>Question</th><th>Action</th></tr></thead>
+						<tbody id="faqTableBody"></tbody>
+					</table>
+				</div>
+				<div id="tab-footer" class="tab-content" style="display:none;">
+					<div class="panel-header"><h2 class="panel-title">Footer Info</h2></div>
+					<div class="section-box">
+						<textarea id="fooAddr" class="form-input" placeholder="Postal Address" style="max-width:780px;"></textarea>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Map Query</span>
+							<input id="fooMap" class="form-input" placeholder="e.g. GEC Jagdalpur">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Facebook</span>
+							<input id="fooFb" class="form-input" placeholder="https://facebook.com/...">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">X / Twitter</span>
+							<input id="fooTw" class="form-input" placeholder="https://x.com/...">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">Instagram</span>
+							<input id="fooIg" class="form-input" placeholder="https://instagram.com/...">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">LinkedIn</span>
+							<input id="fooLi" class="form-input" placeholder="https://linkedin.com/...">
+						</div>
+						<div class="rc-field-row" style="margin-bottom:0;">
+							<span class="rc-field-label">YouTube</span>
+							<input id="fooYt" class="form-input" placeholder="https://youtube.com/...">
+						</div>
+						<div id="fooLinkList"></div>
+						<div class="inline-add">
+							<input id="fLName" class="form-input" placeholder="Link Name" style="max-width:260px;">
+							<input id="fLUrl"  class="form-input" placeholder="URL" style="flex:1;">
+							<button class="btn-save" style="margin-top:0;" onclick="addFooLink()">Add</button>
+						</div>
+						<button class="btn-save" onclick="saveFooter()">Save Footer</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="file" id="sharedFileInput" hidden accept="image/*" onchange="handleFileSelect(this)">
+	<div id="cropElementSource" style="display:none;">
+		<div class="rc-photo-preview-wrap" id="cropWrap">
+			<img id="cropImg" class="rc-photo-preview" draggable="false">
+			<div class="crop-mask" id="mTop"  style="top:0;left:0;width:100%;"></div>
+			<div class="crop-mask" id="mBot"  style="left:0;width:100%;"></div>
+			<div class="crop-mask" id="mLef"  style="left:0;"></div>
+			<div class="crop-mask" id="mRig"  style="right:0;"></div>
+			<div class="crop-selection" id="cropBox">
+				<div class="crop-handle nw" data-dir="nw"></div>
+				<div class="crop-handle ne" data-dir="ne"></div>
+				<div class="crop-handle sw" data-dir="sw"></div>
+				<div class="crop-handle se" data-dir="se"></div>
+				<div class="crop-handle n"  data-dir="n"></div>
+				<div class="crop-handle s"  data-dir="s"></div>
+				<div class="crop-handle e"  data-dir="e"></div>
+				<div class="crop-handle w"  data-dir="w"></div>
+			</div>
+		</div>
+		<div class="crop-reset-bar">
+			<button class="crop-reset-btn" id="cropConfirmBtn">✓ CONFIRM</button>
+			<button class="crop-reset-btn" onclick="resetCrop()">↺ Reset to Original</button>
+		</div>
+	</div>
+	<footer>
+		<div class="footer-bar">
+			<span>&copy; 2026 College Saathi. All Rights Reserved.</span>
+			<span class="footer-credit">Made with <span class="footer-heart">&#9829;</span> By Aditya Shankar</span>
+		</div>
+	</footer>
+</div>
+<script>
+const TOKEN = "__API__";
+const BASE = "https://api.github.com/repos/InnovateX26/COLLEGE_SAATHI_x_TEAM/contents/";
+const META_URL = BASE + "g_meta_data.json";
+const params = new URLSearchParams(window.location.search);
+const COLLEGE_INDEX = parseInt(params.get('college'), 10) || 0;
+const ID_KEY = `id${COLLEGE_INDEX + 1}`;
+let cropMode = "", selectedB64 = "", cropAction = null, currentGallery = [];
+let fooLinks = [];
+const cState = { x: 0, y: 0, w: 0, h: 0 };
+const gD = {};
+const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+function headers() {
+	return {
+		Authorization: `Bearer ${TOKEN}`,
+		Accept: 'application/vnd.github+json',
+		'Content-Type': 'application/json'
+	};
+}
+function safeDecode(str) {
+	try { return decodeURIComponent(escape(atob(str))); }
+	catch(e) { return atob(str); }
+}
+function doLogout() {
+	sessionStorage.removeItem('cs_session');
+	sessionStorage.removeItem('lastTab');
+	const college = new URLSearchParams(window.location.search).get('college') || '0';
+	window.location.href = 'menulist_page.html?college=' + college;
+}
+function switchTab(t, el) {
+	sessionStorage.setItem('lastTab', t);
+	document.querySelectorAll('.tab-content').forEach(x => x.style.display = 'none');
+	document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+	const target = document.getElementById('tab-' + t);
+	if (target) target.style.display = 'block';
+	if (el) el.classList.add('active');
+	document.getElementById('cropElementSource').style.display = 'none';
+}
+function populateBatchDropdown() {
+	const currentYear = new Date().getFullYear();
+	const courseDuration = 4;
+	const select = document.getElementById('acadBatch');
+	select.innerHTML = '';
+	for (let i = courseDuration - 1; i >= 0; i--) {
+		const startYear = currentYear - i;
+		const endYear = startYear + courseDuration;
+		const opt = document.createElement('option');
+		opt.value = `${startYear}`;
+		opt.textContent = `${startYear}–${endYear}`;
+		if (i === 0) opt.textContent += ' (New)';
+		select.appendChild(opt);
+	}
+}
+async function init() {
+	populateBatchDropdown();
+	try {
+		const mRes = await fetch(`${META_URL}?t=${Date.now()}`, { headers: headers() });
+		const mJ = await mRes.json();
+		gD.meta = JSON.parse(safeDecode(mJ.content));
+		gD.meta_sha = mJ.sha;
+		const col  = gD.meta.colleges[COLLEGE_INDEX];
+		const keys = ['topbar','slider','about','qualities','members','notices','achievements','faqs','footer','user'];
+		const fetches = keys.map(k =>
+			fetch(`${BASE}${ID_KEY}/${col.files[k]}?t=${Date.now()}`, { headers: headers() })
+			.then(r => r.ok ? r.json() : null)
+		);
+		const plannerFilename = `g_data_${ID_KEY}_academicplanner.json`;
+		const plannerFetch = fetch(`${BASE}${ID_KEY}/${plannerFilename}?t=${Date.now()}`, { headers: headers() })
+			.then(r => r.ok ? r.json() : null).catch(() => null);
+		const [results, plannerRes] = await Promise.all([
+			Promise.allSettled(fetches),
+			plannerFetch
+		]);
+		results.forEach((res, i) => {
+			const key = keys[i];
+			if (res.status === "fulfilled" && res.value) {
+				gD[key] = JSON.parse(safeDecode(res.value.content));
+				gD[key + '_sha'] = res.value.sha;
+			} else {
+				gD[key] = {};
+			}
+		});
+		if (plannerRes) {
+			gD.academic = JSON.parse(safeDecode(plannerRes.content));
+			gD.academic_sha = plannerRes.sha;
+			gD.academic_filename = plannerFilename;
+		} else {
+			gD.academic = { schedules: {}, holidays: [] };
+			gD.academic_sha = null;
+			gD.academic_filename = plannerFilename;
+		}
+		renderAll();
+		loadBatchSchedule();
+		const last = sessionStorage.getItem('lastTab');
+		if (last) {
+			const btn = Array.from(document.querySelectorAll('.nav-item'))
+				.find(b => b.getAttribute('onclick')?.includes(`'${last}'`));
+			if (btn) switchTab(last, btn);
+		}
+		document.getElementById('skLayer').style.display = 'none';
+		document.getElementById('mainContent').style.visibility = 'visible';
+	} catch(e) {
+		console.error("Init failed:", e);
+	}
+}
+function renderAll() {
+	const col = gD.meta.colleges[COLLEGE_INDEX];
+	document.getElementById('adminLogoHead').src = col.image || '';
+	document.getElementById('adminGreet').textContent = `Hi, ${col.adminId || 'Admin'}`;
+	document.getElementById('previewMaster').src = col.image || '';
+	document.getElementById('colDisplayName').value = col.name  || '';
+	if (gD.topbar) {
+		document.getElementById('topbarTitle').value = gD.topbar.collegeName || '';
+		document.getElementById('previewLogo').src = gD.topbar.logo || '';
+	}
+	if (gD.about)  document.getElementById('aboutText').value = gD.about.about  || '';
+	if (gD.footer) {
+		const f = gD.footer, s = f.socials || {};
+		document.getElementById('fooAddr').value = f.address || '';
+		document.getElementById('fooMap').value = f.mapQuery || '';
+		document.getElementById('fooFb').value = s.facebook || '';
+		document.getElementById('fooTw').value = s.twitter || '';
+		document.getElementById('fooIg').value = s.instagram || '';
+		document.getElementById('fooLi').value = s.linkedin || '';
+		document.getElementById('fooYt').value = s.youtube || '';
+		fooLinks = f.links || [];
+		renderFooLinks();
+	}
+	const mapTable = (data, target, rowFn) => {
+		const body = document.getElementById(target);
+		if (body) body.innerHTML = (data || []).map(rowFn).join('');
+	};
+	mapTable(gD.slider?.slider,			  'sliderTableBody', (s,i) => `<tr><td><img src="${s.img}" style="height:28px;border-radius:2px;"></td><td>${s.caption||''}</td><td><button class="btn-danger" onclick="delItem('slider','slider',${i})">Delete</button></td></tr>`);
+	mapTable(gD.qualities?.qualities,		'qualTableBody',   (q,i) => `<tr><td><img src="${q.img}" style="height:28px;border-radius:2px;"></td><td>${q.label||''}</td><td><button class="btn-danger" onclick="delItem('qualities','qualities',${i})">Delete</button></td></tr>`);
+	mapTable(gD.members?.members,			'memTableBody',	(m,i) => `<tr><td><img src="${m.img}" style="height:28px;border-radius:50%;"></td><td>${m.name||''}</td><td>${m.role||''}</td><td><button class="btn-danger" onclick="delItem('members','members',${i})">Delete</button></td></tr>`);
+	mapTable(gD.notices?.notices,			'notTableBody',	(n,i) => `<tr><td>${n.date||''}</td><td>${n.title||''}</td><td><button class="btn-danger" onclick="delItem('notices','notices',${i})">Delete</button></td></tr>`);
+	mapTable(gD.achievements?.achievements,  'achTableBody',	(a,i) => `<tr><td><img src="${a.img}" style="height:28px;border-radius:2px;"></td><td>${a.title||''}</td><td><button class="btn-danger" onclick="delItem('achievements','achievements',${i})">Delete</button></td></tr>`);
+	mapTable(gD.faqs?.faqs,				  'faqTableBody',	(f,i) => `<tr><td>${f.q||''}</td><td><button class="btn-danger" onclick="delItem('faqs','faqs',${i})">Delete</button></td></tr>`);
+	mapTable(gD.user?.users, 'subTableBody', (u,i) => `<tr><td>${u.name||''}</td><td>${u.uid||''}</td><td>${u.role||''}</td><td><button class="btn-danger" onclick="delSubAdmin(${i})">Delete</button></td></tr>`);
+	mapTable(gD.academic?.holidays, 'holTableBody', (h,i) => `<tr><td>${h.name||''}</td><td>${h.date||''}</td><td><button class="btn-danger" onclick="delHoliday(${i})">Delete</button></td></tr>`);
+}
+function loadBatchSchedule() {
+	const batch  = document.getElementById('acadBatch').value;
+	const branch = document.getElementById('acadBranch').value;
+	const key	= `batch${batch}_${branch}`;
+	const grid   = document.getElementById('scheduleGrid');
+	if (!grid) return;
+	grid.innerHTML = "";
+	const batchData = (gD.academic.schedules && gD.academic.schedules[key])
+					  ? gD.academic.schedules[key] : {};
+	days.forEach((day, idx) => {
+		const card = document.createElement('div');
+		card.className = "day-card";
+		card.innerHTML = `
+			<div class="day-header">
+				<span>${day}</span>
+				<button class="btn-add-mini" onclick="addClassRow(${idx})">+ Add</button>
+			</div>
+			<div id="day-rows-${idx}">
+				${(batchData[idx] || []).length === 0 
+					? `<div style="font-size:11px;color:#aaa;padding:6px 0;">No classes added</div>` 
+					: ''}
+			</div>`;
+		grid.appendChild(card);
+		(batchData[idx] || []).forEach((c, ci) => addClassRow(idx, c.time, c.subject, ci));
+	});
+}
+async function deleteClassRow(btn, dayIdx) {
+	if (!confirm("Remove this class?")) return;
+	const row = btn.parentElement;
+	const container = row.parentElement;
+	row.remove();
+	if (container.querySelectorAll('.class-row').length === 0) {
+		container.innerHTML = `<div style="font-size:11px;color:#aaa;padding:6px 0;">No classes added</div>`;
+	}
+	await saveFullSchedule();
+}
+function addClassRow(idx, t = "", s = "", rowIdx = null) {
+	const container = document.getElementById(`day-rows-${idx}`);
+	if (!container) return;
+	const placeholder = container.querySelector('div[style*="No classes"]');
+	if (placeholder) placeholder.remove();
+	const div = document.createElement('div');
+	div.className = "class-row";
+	div.dataset.dayIdx = idx;
+	div.innerHTML = `
+		<input class="form-input time-in" placeholder="Time e.g. 9:00 AM" value="${t}" style="height:34px;padding:6px 10px;">
+		<input class="form-input sub-in"  placeholder="Subject" value="${s}" style="height:34px;padding:6px 10px;">
+		<button class="btn-danger" style="height:34px;padding:0 8px;" title="Delete row" onclick="deleteClassRow(this, ${idx})">×</button>`;
+	container.appendChild(div);
+}
+async function saveFullSchedule() {
+	const batch  = document.getElementById('acadBatch').value;
+	const branch = document.getElementById('acadBranch').value;
+	const key	= `batch${batch}_${branch}`;
+	if (!gD.academic.schedules) gD.academic.schedules = {};
+	const batchObj = {};
+	days.forEach((_, idx) => {
+		const rows = document.getElementById(`day-rows-${idx}`).querySelectorAll('.class-row');
+		const data = [];
+		rows.forEach(r => {
+			const ti = r.querySelector('.time-in').value.trim();
+			const su = r.querySelector('.sub-in').value.trim();
+			if (ti || su) data.push({ time: ti, subject: su });
+		});
+		batchObj[idx] = data;
+	});
+	gD.academic.schedules[key] = batchObj;
+	await syncPlanner();
+}
+async function sync(k, d) {
+	const col = gD.meta.colleges[COLLEGE_INDEX];
+	const enc = btoa(unescape(encodeURIComponent(JSON.stringify(d, null, 2))));
+	const res = await fetch(BASE + ID_KEY + '/' + col.files[k], {
+		method: 'PUT', headers: headers(),
+		body: JSON.stringify({ message: `Update ${k}`, content: enc, sha: gD[k + '_sha'] })
+	});
+	const json = await res.json();
+	if (json.content) gD[k + '_sha'] = json.content.sha;
+	location.reload();
+}
+function showToast(msg) {
+	let t = document.getElementById('csToast');
+	if (!t) {
+		t = document.createElement('div');
+		t.id = 'csToast';
+		t.style.cssText = `
+			position:fixed; bottom:28px; left:50%; transform:translateX(-50%);
+			background:#1a1a1a; color:#fff; font-family:"Source Serif 4",serif;
+			font-size:13px; font-weight:600; padding:10px 28px;
+			border-left:4px solid var(--gold); z-index:9999;
+			opacity:0; transition:opacity 0.3s; pointer-events:none;`;
+		document.body.appendChild(t);
+	}
+	t.textContent = msg;
+	t.style.opacity = '1';
+	setTimeout(() => t.style.opacity = '0', 2500);
+}
+async function syncPlanner() {
+	const enc = btoa(unescape(encodeURIComponent(JSON.stringify(gD.academic, null, 2))));
+	const body = { message: 'Update academicplanner', content: enc };
+	if (gD.academic_sha) body.sha = gD.academic_sha;
+	const res = await fetch(BASE + ID_KEY + '/' + gD.academic_filename, {
+		method: 'PUT', headers: headers(), body: JSON.stringify(body)
+	});
+	const json = await res.json();
+	if (json.content) gD.academic_sha = json.content.sha;
+	renderAll();
+	loadBatchSchedule();
+	showToast("Saved successfully!");
+}
+async function delItem(fk, ak, i) {
+	if (confirm("Delete this item?")) {
+		gD[fk][ak].splice(i, 1);
+		await sync(fk, gD[fk]);
+	}
+}
+async function delHoliday(i) {
+	if (confirm("Delete this holiday?")) {
+		gD.academic.holidays.splice(i, 1);
+		await syncPlanner();
+	}
+}
+async function delSubAdmin(i) {
+	if (confirm("Delete this sub-admin?")) {
+		gD.user.users.splice(i, 1);
+		await sync('user', gD.user);
+	}
+}
+async function saveMaster() {
+	gD.meta.colleges[COLLEGE_INDEX].name = document.getElementById('colDisplayName').value;
+	const img = await getCropped();
+	if (img) gD.meta.colleges[COLLEGE_INDEX].image = img;
+	const enc = btoa(unescape(encodeURIComponent(JSON.stringify(gD.meta, null, 2))));
+	await fetch(META_URL, {
+		method: 'PUT', headers: headers(),
+		body: JSON.stringify({ message: "Update Meta", content: enc, sha: gD.meta_sha })
+	});
+	location.reload();
+}
+async function saveTopbar() {
+	gD.topbar.collegeName = document.getElementById('topbarTitle').value;
+	const img = await getCropped();
+	if (img) gD.topbar.logo = img;
+	await sync('topbar', gD.topbar);
+}
+async function saveAbout() {
+	gD.about.about = document.getElementById('aboutText').value;
+	await sync('about', gD.about);
+}
+async function saveFooter() {
+	gD.footer.address  = document.getElementById('fooAddr').value;
+	gD.footer.mapQuery = document.getElementById('fooMap').value;
+	gD.footer.socials  = {
+		facebook: document.getElementById('fooFb').value,
+		twitter: document.getElementById('fooTw').value,
+		instagram: document.getElementById('fooIg').value,
+		linkedin: document.getElementById('fooLi').value,
+		youtube: document.getElementById('fooYt').value
+	};
+	gD.footer.links = fooLinks;
+	await sync('footer', gD.footer);
+}
+async function addHoliday() {
+	if (!gD.academic.holidays) gD.academic.holidays = [];
+	gD.academic.holidays.push({
+		name: document.getElementById('holName').value,
+		date: document.getElementById('holDate').value
+	});
+	await syncPlanner();
+}
+async function addSlide() {
+	if (!gD.slider.slider) gD.slider.slider = [];
+	gD.slider.slider.push({
+		img: await getCropped(),
+		caption: document.getElementById('slideCap').value,
+		sub: document.getElementById('slideSub').value
+	});
+	await sync('slider', gD.slider);
+}
+async function addQuality() {
+	if (!gD.qualities.qualities) gD.qualities.qualities = [];
+	gD.qualities.qualities.push({
+		label: document.getElementById('qualLabel').value,
+		sub: document.getElementById('qualSub').value,
+		img: await getCropped()
+	});
+	await sync('qualities', gD.qualities);
+}
+async function addMember() {
+	if (!gD.members.members) gD.members.members = [];
+	gD.members.members.push({
+		name: document.getElementById('memName').value,
+		role: document.getElementById('memRole').value,
+		dept: document.getElementById('memDept').value,
+		img: await getCropped()
+	});
+	await sync('members', gD.members);
+}
+async function addNotice() {
+	if (!gD.notices.notices) gD.notices.notices = [];
+	gD.notices.notices.push({
+		title: document.getElementById('notTitle').value,
+		detail: document.getElementById('notDetail').value,
+		date: new Date().toLocaleDateString('en-IN'),
+		ref_name: document.getElementById('notRefName').value,
+		ref_link: document.getElementById('notRefLink').value,
+		pdf_name: document.getElementById('notPdfName').value,
+		pdf_link: document.getElementById('notPdfLink').value
+	});
+	await sync('notices', gD.notices);
+}
+async function addAchievement() {
+	if (!gD.achievements.achievements) gD.achievements.achievements = [];
+	gD.achievements.achievements.push({
+		title: document.getElementById('achTitle').value,
+		category: document.getElementById('achCat').value,
+		short: document.getElementById('achShort').value,
+		long: document.getElementById('achLong').value,
+		img: await getCropped(),
+		gallery: currentGallery
+	});
+	await sync('achievements', gD.achievements);
+}
+async function addFaq() {
+	if (!gD.faqs.faqs) gD.faqs.faqs = [];
+	gD.faqs.faqs.push({
+		q: document.getElementById('faqQ').value,
+		a: document.getElementById('faqA').value
+	});
+	await sync('faqs', gD.faqs);
+}
+function addFooLink() {
+	fooLinks.push({
+		name: document.getElementById('fLName').value,
+		url:  document.getElementById('fLUrl').value
+	});
+	renderFooLinks();
+}
+function renderFooLinks() {
+	document.getElementById('fooLinkList').innerHTML = fooLinks.map((l,i) => `
+		<div style="font-size:13px;display:flex;justify-content:space-between;align-items:center;background:#fff;padding:8px 10px;border:1px solid var(--border);margin-bottom:4px;">
+			<span>${l.name}</span>
+			<button class="btn-danger" onclick="fooLinks.splice(${i},1);renderFooLinks()">Delete</button>
+		</div>`).join('');
+}
+async function createSubAdmin() {
+	const name = document.getElementById('subName').value.trim();
+	const uid = document.getElementById('subId').value.trim();
+	const pwd = document.getElementById('subPwd').value;
+	const dept = document.getElementById('subDept').value.trim();
+	const role = document.getElementById('subRole').value.trim();
+	if (!name || !uid || !pwd) { alert("Name, ID and Password are required."); return; }
+	if (!gD.user.users) gD.user.users = [];
+	if (gD.user.users.find(u => u.uid === uid)) { alert("That ID is already taken."); return; }
+	gD.user.users.push({ name, uid, pwd, dept, role, type: 'subadmin', createdAt: new Date().toISOString() });
+	await sync('user', gD.user);
+}
+function triggerInput(m) {
+	cropMode = m;
+	const map = {
+		master:	  'cropTargetProfile',
+		topbar:	  'cropTargetTopbar',
+		slider:	  'cropTargetSlider',
+		qualities:   'cropTargetQualities',
+		members:	 'cropTargetMembers',
+		achieve:	 'cropTargetAchieve',
+		achieve_gal: 'cropTargetAchieveGal'
+	};
+	const target = document.getElementById(map[m] || 'cropTargetProfile');
+	if (target) target.appendChild(document.getElementById('cropElementSource'));
+	document.getElementById('cropElementSource').style.display = 'block';
+	document.getElementById('cropConfirmBtn').style.display = (m === 'achieve_gal') ? 'inline-block' : 'none';
+	document.getElementById('sharedFileInput').click();
+}
+function handleFileSelect(inp) {
+	const f = inp.files[0];
+	if (!f) return;
+	const r = new FileReader();
+	r.onload = (e) => {
+		document.getElementById('cropImg').src = e.target.result;
+		selectedB64 = e.target.result.split(',')[1];
+		document.getElementById('cropWrap').classList.add('show');
+		document.getElementById('cropImg').onload = initCrop;
+	};
+	r.readAsDataURL(f);
+}
+function initCrop() {
+	const w = document.getElementById('cropWrap');
+	const isSmall = ['topbar','qualities','members'].includes(cropMode);
+	cState.w = isSmall ? 100 : 200;
+	cState.h = isSmall ? 100 : 112;
+	cState.x = (w.clientWidth  - cState.w) / 2;
+	cState.y = (w.clientHeight - cState.h) / 2;
+	updateCropUI();
+}
+function resetCrop() { initCrop(); }
+function updateCropUI() {
+	const b = document.getElementById('cropBox');
+	const w = document.getElementById('cropWrap');
+	const BW = w.clientWidth, BH = w.clientHeight;
+	b.style.left = cState.x + 'px';
+	b.style.top = cState.y + 'px';
+	b.style.width = cState.w + 'px';
+	b.style.height = cState.h + 'px';
+	document.getElementById('mTop').style.height = cState.y + 'px';
+	document.getElementById('mBot').style.top	= (cState.y + cState.h) + 'px';
+	document.getElementById('mBot').style.height = (BH - cState.y - cState.h) + 'px';
+	document.getElementById('mLef').style.top	= cState.y + 'px';
+	document.getElementById('mLef').style.width  = cState.x + 'px';
+	document.getElementById('mLef').style.height = cState.h + 'px';
+	document.getElementById('mRig').style.top	= cState.y + 'px';
+	document.getElementById('mRig').style.left   = (cState.x + cState.w) + 'px';
+	document.getElementById('mRig').style.width  = (BW - cState.x - cState.w) + 'px';
+	document.getElementById('mRig').style.height = cState.h + 'px';
+}
+document.getElementById('cropBox').onmousedown = e => {
+	if (e.target.classList.contains('crop-handle')) {
+		cropAction = { type:'res', dir:e.target.dataset.dir, sx:cState.x, sy:cState.y, sw:cState.w, sh:cState.h, mx:e.clientX, my:e.clientY };
+	} else {
+		cropAction = { type:'mov', sx:cState.x, sy:cState.y, mx:e.clientX, my:e.clientY };
+	}
+	e.preventDefault();
+};
+window.onmousemove = e => {
+	if (!cropAction) return;
+	const dx = e.clientX - cropAction.mx, dy = e.clientY - cropAction.my;
+	if (cropAction.type === 'mov') {
+		cState.x = cropAction.sx + dx;
+		cState.y = cropAction.sy + dy;
+	} else {
+		if (cropAction.dir.includes('e')) cState.w = cropAction.sw + dx;
+		if (cropAction.dir.includes('s')) cState.h = cropAction.sh + dy;
+		if (cropAction.dir.includes('w')) { cState.x = cropAction.sx + dx; cState.w = cropAction.sw - dx; }
+		if (cropAction.dir.includes('n')) { cState.y = cropAction.sy + dy; cState.h = cropAction.sh - dy; }
+	}
+	updateCropUI();
+};
+window.onmouseup = () => cropAction = null;
+async function getCropped() {
+	if (!selectedB64) return null;
+	const can = document.createElement('canvas');
+	const img = document.getElementById('cropImg');
+	const w = document.getElementById('cropWrap');
+	const sX = img.naturalWidth  / w.clientWidth;
+	const sY = img.naturalHeight / w.clientHeight;
+	can.width = (cropMode === 'topbar') ? 200 : 800;
+	can.height = (cropMode === 'topbar') ? 200 : 450;
+	const ctx = can.getContext('2d');
+	ctx.drawImage(img, cState.x*sX, cState.y*sY, cState.w*sX, cState.h*sY, 0, 0, can.width, can.height);
+	return can.toDataURL('image/jpeg', 0.75);
+}
+function renderGal() {
+	const cont = document.getElementById('achGalleryPreview');
+	if (!cont) return;
+	cont.style.display = currentGallery.length ? 'flex' : 'none';
+	cont.innerHTML = currentGallery.map((im,i) => `
+		<div class="gallery-thumb">
+			<img src="${im}">
+			<div class="rem" onclick="currentGallery.splice(${i},1);renderGal()">×</div>
+		</div>`).join('');
+}
+document.getElementById('cropConfirmBtn').onclick = async () => {
+	const img = await getCropped();
+	if (img) { currentGallery.push(img); renderGal(); }
+	document.getElementById('cropWrap').classList.remove('show');
+};
+init();
+</script>
+</body>
+</html>
