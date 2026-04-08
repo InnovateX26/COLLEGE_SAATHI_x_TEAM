@@ -8,6 +8,15 @@
       "batch": "2025-29",
       "pwd": "123456",
       "registeredAt": "2026-04-02T02:31:17.689Z"
+    },
+    {
+      "uid": "gecl_shankar",
+      "name": "shankar",
+      "rollNo": "12431234",
+      "branch": "CS (AI/ML)",
+      "batch": "2025-29",
+      "pwd": "123456789",
+      "registeredAt": "2026-04-08T11:00:34.135Z"
     }
   ]
 }
